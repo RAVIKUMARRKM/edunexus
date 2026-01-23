@@ -90,7 +90,6 @@ export async function GET(request: NextRequest) {
     ]);
 
     return NextResponse.json({
-      success: true,
       data: students,
       pagination: {
         page,
@@ -102,7 +101,7 @@ export async function GET(request: NextRequest) {
   } catch (error: any) {
     console.error('Error fetching students:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch students' },
+      { error: error.message || 'Failed to fetch students' },
       { status: 500 }
     );
   }

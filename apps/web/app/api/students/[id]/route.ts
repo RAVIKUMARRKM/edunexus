@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@edunexus/database';
 import { studentSchema } from '@edunexus/shared';
-
-const prisma = new PrismaClient();
+import { getServerSession } from 'next-auth';
 
 // GET /api/students/[id] - Get single student
 export async function GET(
@@ -10,6 +9,10 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const student = await prisma.student.findUnique({
       where: { id: params.id },
       include: {
@@ -115,6 +118,10 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await request.json();
     const validatedData = studentSchema.partial().parse(body);
 
@@ -197,6 +204,10 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const student = await prisma.student.findUnique({
       where: { id: params.id },
     });

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@edunexus/database';
+import { getServerSession } from 'next-auth';
 
 // GET /api/students/[id]/documents - Get all documents for a student
 export async function GET(
@@ -9,6 +8,10 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const documents = await prisma.studentDocument.findMany({
       where: {
         studentId: params.id,
@@ -37,6 +40,10 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await request.json();
     const { name, type, fileUrl } = body;
 

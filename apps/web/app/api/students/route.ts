@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@edunexus/database';
 import { studentSchema } from '@edunexus/shared';
-
-const prisma = new PrismaClient();
+import { getServerSession } from 'next-auth';
 
 // GET /api/students - List all students with filters
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const searchParams = request.nextUrl.searchParams;
     const classId = searchParams.get('classId');
     const sectionId = searchParams.get('sectionId');
@@ -108,6 +111,10 @@ export async function GET(request: NextRequest) {
 // POST /api/students - Create new student
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     const body = await request.json();
     const validatedData = studentSchema.parse(body);
 

@@ -141,7 +141,7 @@ export function SubjectForm({
               <SelectValue placeholder="Select teacher" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">None</SelectItem>
+              <SelectItem value="none">None</SelectItem>
               {teachers.map((teacher) => (
                 <SelectItem key={teacher.id} value={teacher.id}>
                   {teacher.user.name} ({teacher.employeeId})

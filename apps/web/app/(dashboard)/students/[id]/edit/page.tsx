@@ -150,8 +150,8 @@ export default function EditStudentPage() {
         initialData={initialData}
         onSubmit={handleSubmit}
         isLoading={updateStudentMutation.isPending}
-        classes={classesData?.data || []}
-        sections={sectionsData?.data || []}
+        classes={classesData?.classes || []}
+        sections={sectionsData?.sections || []}
       />
     </div>
   );

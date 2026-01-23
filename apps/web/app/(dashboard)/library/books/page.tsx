@@ -106,7 +106,7 @@ export default function BooksPage({
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
+              <SelectItem value="all">All Categories</SelectItem>
               <SelectItem value="Fiction">Fiction</SelectItem>
               <SelectItem value="Non-Fiction">Non-Fiction</SelectItem>
               <SelectItem value="Science">Science</SelectItem>
@@ -126,7 +126,7 @@ export default function BooksPage({
               <SelectValue placeholder="Availability" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Books</SelectItem>
+              <SelectItem value="all">All Books</SelectItem>
               <SelectItem value="true">Available Only</SelectItem>
             </SelectContent>
           </Select>

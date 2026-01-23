@@ -144,7 +144,7 @@ export default function StudentsPage() {
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
             >
               <option value="">All Classes</option>
-              {classesData?.data?.map((cls: any) => (
+              {classesData?.classes?.map((cls: any) => (
                 <option key={cls.id} value={cls.id}>
                   {cls.name}
                 </option>
@@ -161,7 +161,7 @@ export default function StudentsPage() {
               disabled={!classFilter}
             >
               <option value="">All Sections</option>
-              {sectionsData?.data?.map((section: any) => (
+              {sectionsData?.sections?.map((section: any) => (
                 <option key={section.id} value={section.id}>
                   {section.name}
                 </option>

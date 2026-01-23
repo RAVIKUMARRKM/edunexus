@@ -20,8 +20,8 @@ import {
 export default function TeachersPage() {
   const [view, setView] = useState<'grid' | 'table'>('table');
   const [search, setSearch] = useState('');
-  const [status, setStatus] = useState('');
-  const [departmentId, setDepartmentId] = useState('');
+  const [status, setStatus] = useState('all');
+  const [departmentId, setDepartmentId] = useState('all');
   const queryClient = useQueryClient();
 
   // Fetch teachers
@@ -30,8 +30,8 @@ export default function TeachersPage() {
     queryFn: async () => {
       const params = new URLSearchParams();
       if (search) params.set('search', search);
-      if (status) params.set('status', status);
-      if (departmentId) params.set('departmentId', departmentId);
+      if (status && status !== 'all') params.set('status', status);
+      if (departmentId && departmentId !== 'all') params.set('departmentId', departmentId);
       params.set('limit', '100');
 
       const res = await fetch(`/api/teachers?${params.toString()}`);
@@ -114,7 +114,7 @@ export default function TeachersPage() {
             <SelectValue placeholder="All Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Status</SelectItem>
+            <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="ACTIVE">Active</SelectItem>
             <SelectItem value="ON_LEAVE">On Leave</SelectItem>
             <SelectItem value="RESIGNED">Resigned</SelectItem>
@@ -127,7 +127,7 @@ export default function TeachersPage() {
             <SelectValue placeholder="All Departments" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Departments</SelectItem>
+            <SelectItem value="all">All Departments</SelectItem>
             {departments?.departments?.map((dept: any) => (
               <SelectItem key={dept.id} value={dept.id}>
                 {dept.name}

@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Search } from 'lucide-react';
-import { useToast } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/toast';
 
 interface Allocation {
   id: string;

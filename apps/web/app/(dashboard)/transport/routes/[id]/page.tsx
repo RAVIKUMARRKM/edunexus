@@ -25,7 +25,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { ArrowLeft, Plus, MapPin } from 'lucide-react';
-import { useToast } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/toast';
 
 interface RouteStop {
   id: string;

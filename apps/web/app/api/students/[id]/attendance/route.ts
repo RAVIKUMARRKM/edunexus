@@ -29,7 +29,7 @@ export async function POST(
 
     if (!student) {
       return NextResponse.json(
-        { success: false, error: 'Student not found' },
+        { error: 'Student not found' },
         { status: 404 }
       );
     }
@@ -76,15 +76,11 @@ export async function POST(
       });
     }
 
-    return NextResponse.json({
-      success: true,
-      data: attendance,
-      message: 'Attendance marked successfully',
-    });
+    return NextResponse.json(attendance);
   } catch (error: any) {
     console.error('Error marking attendance:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to mark attendance' },
+      { error: error.message || 'Failed to mark attendance' },
       { status: 500 }
     );
   }
@@ -141,7 +137,6 @@ export async function GET(
     const percentage = total > 0 ? ((present + (halfDay * 0.5)) / total * 100).toFixed(2) : 0;
 
     return NextResponse.json({
-      success: true,
       data: attendances,
       statistics: {
         total,
@@ -156,7 +151,7 @@ export async function GET(
   } catch (error: any) {
     console.error('Error fetching attendance:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch attendance' },
+      { error: error.message || 'Failed to fetch attendance' },
       { status: 500 }
     );
   }

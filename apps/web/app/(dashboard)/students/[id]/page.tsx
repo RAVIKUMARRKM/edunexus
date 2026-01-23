@@ -72,7 +72,7 @@ export default function StudentProfilePage() {
     );
   }
 
-  if (!data?.data) {
+  if (!data) {
     return (
       <div className="container mx-auto py-6">
         <Card className="p-6 text-center">
@@ -85,7 +85,7 @@ export default function StudentProfilePage() {
     );
   }
 
-  const student = data.data;
+  const student = data;
 
   const getStatusColor = (status: string) => {
     switch (status) {

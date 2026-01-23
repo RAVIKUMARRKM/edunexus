@@ -21,14 +21,11 @@ export async function GET(
       },
     });
 
-    return NextResponse.json({
-      success: true,
-      data: documents,
-    });
+    return NextResponse.json(documents);
   } catch (error: any) {
     console.error('Error fetching documents:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch documents' },
+      { error: error.message || 'Failed to fetch documents' },
       { status: 500 }
     );
   }
@@ -49,7 +46,7 @@ export async function POST(
 
     if (!name || !type || !fileUrl) {
       return NextResponse.json(
-        { success: false, error: 'Missing required fields' },
+        { error: 'Missing required fields' },
         { status: 400 }
       );
     }
@@ -61,7 +58,7 @@ export async function POST(
 
     if (!student) {
       return NextResponse.json(
-        { success: false, error: 'Student not found' },
+        { error: 'Student not found' },
         { status: 404 }
       );
     }
@@ -75,15 +72,11 @@ export async function POST(
       },
     });
 
-    return NextResponse.json({
-      success: true,
-      data: document,
-      message: 'Document uploaded successfully',
-    }, { status: 201 });
+    return NextResponse.json(document, { status: 201 });
   } catch (error: any) {
     console.error('Error uploading document:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to upload document' },
+      { error: error.message || 'Failed to upload document' },
       { status: 500 }
     );
   }

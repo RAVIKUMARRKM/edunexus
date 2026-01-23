@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Search, Eye } from 'lucide-react';
-import { useToast } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/toast';
 
 interface Route {
   id: string;

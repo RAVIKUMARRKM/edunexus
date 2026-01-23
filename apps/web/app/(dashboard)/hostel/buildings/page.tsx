@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Search, Building2 } from 'lucide-react';
-import { useToast } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/toast';
 import { Progress } from '@/components/ui/progress';
 
 interface Building {

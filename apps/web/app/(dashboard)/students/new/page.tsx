@@ -54,7 +54,7 @@ export default function NewStudentPage() {
         title: 'Success',
         description: 'Student created successfully',
       });
-      router.push(`/students/${data.data.id}`);
+      router.push(`/students/${data.id}`);
     },
     onError: (error: any) => {
       toast({

@@ -91,7 +91,7 @@ export default function EditStudentPage() {
     );
   }
 
-  if (!studentData?.data) {
+  if (!studentData) {
     return (
       <div className="container mx-auto py-6">
         <Card className="p-6 text-center">
@@ -101,7 +101,7 @@ export default function EditStudentPage() {
     );
   }
 
-  const student = studentData.data;
+  const student = studentData;
 
   // Prepare initial form data
   const initialData = {

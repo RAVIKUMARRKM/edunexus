@@ -155,7 +155,7 @@ export default function FeeReportsPage() {
                           <SelectValue placeholder="All classes" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">All Classes</SelectItem>
+                          <SelectItem value="all">All Classes</SelectItem>
                           <SelectItem value="1">Class 1</SelectItem>
                           <SelectItem value="2">Class 2</SelectItem>
                           <SelectItem value="3">Class 3</SelectItem>

@@ -83,8 +83,8 @@ export default function NewStudentPage() {
       <StudentForm
         onSubmit={handleSubmit}
         isLoading={createStudentMutation.isPending}
-        classes={classesData?.data || []}
-        sections={sectionsData?.data || []}
+        classes={classesData?.classes || []}
+        sections={sectionsData?.sections || []}
       />
     </div>
   );

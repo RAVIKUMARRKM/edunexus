@@ -70,14 +70,15 @@ export default function GradeEntry({
   const fetchStudentsAndResults = async () => {
     setLoading(true);
     try {
-      // Fetch students from the class (you'll need to implement this endpoint)
+      // Fetch students from the class
       const studentsResponse = await fetch(
         `/api/exams/${examId}/students`
       );
 
-      // For now, using mock data - replace with actual API call
-      const mockStudents: Student[] = [];
-      setStudents(mockStudents);
+      if (studentsResponse.ok) {
+        const studentsData = await studentsResponse.json();
+        setStudents(studentsData);
+      }
 
       // Fetch existing results for this subject
       const resultsResponse = await fetch(

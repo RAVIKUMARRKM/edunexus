@@ -94,19 +94,16 @@ export async function GET(
 
     if (!student) {
       return NextResponse.json(
-        { success: false, error: 'Student not found' },
+        { error: 'Student not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      data: student,
-    });
+    return NextResponse.json(student);
   } catch (error: any) {
     console.error('Error fetching student:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch student' },
+      { error: error.message || 'Failed to fetch student' },
       { status: 500 }
     );
   }
@@ -133,7 +130,7 @@ export async function PUT(
 
     if (!existingStudent) {
       return NextResponse.json(
-        { success: false, error: 'Student not found' },
+        { error: 'Student not found' },
         { status: 404 }
       );
     }
@@ -184,15 +181,11 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json({
-      success: true,
-      data: updatedStudent,
-      message: 'Student updated successfully',
-    });
+    return NextResponse.json(updatedStudent);
   } catch (error: any) {
     console.error('Error updating student:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to update student' },
+      { error: error.message || 'Failed to update student' },
       { status: 500 }
     );
   }
@@ -214,7 +207,7 @@ export async function DELETE(
 
     if (!student) {
       return NextResponse.json(
-        { success: false, error: 'Student not found' },
+        { error: 'Student not found' },
         { status: 404 }
       );
     }
@@ -225,13 +218,12 @@ export async function DELETE(
     });
 
     return NextResponse.json({
-      success: true,
       message: 'Student deleted successfully',
     });
   } catch (error: any) {
     console.error('Error deleting student:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to delete student' },
+      { error: error.message || 'Failed to delete student' },
       { status: 500 }
     );
   }

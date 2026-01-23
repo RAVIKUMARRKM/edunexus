@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
 
     if (existingStudent) {
       return NextResponse.json(
-        { success: false, error: 'Admission number already exists' },
+        { error: 'Admission number already exists' },
         { status: 400 }
       );
     }
@@ -216,15 +216,11 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({
-      success: true,
-      data: student,
-      message: 'Student created successfully',
-    }, { status: 201 });
+    return NextResponse.json(student, { status: 201 });
   } catch (error: any) {
     console.error('Error creating student:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to create student' },
+      { error: error.message || 'Failed to create student' },
       { status: 500 }
     );
   }

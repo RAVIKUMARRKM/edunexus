@@ -12,6 +12,10 @@ import {
   Check,
   X,
   Clock,
+  BarChart3,
+  UserCheck,
+  Download,
+  Bell,
 } from 'lucide-react';
 
 export default function AttendancePage() {
@@ -25,85 +29,160 @@ export default function AttendancePage() {
         </p>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
-          <Link href="/attendance/mark">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CalendarCheck className="h-8 w-8 text-primary" />
-                <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-              </div>
-              <CardTitle className="mt-4">Mark Attendance</CardTitle>
-              <CardDescription>
-                Record daily attendance for students by class and section
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" asChild>
-                <span>
-                  <CalendarCheck className="mr-2 h-4 w-4" />
-                  Start Marking
-                </span>
-              </Button>
-            </CardContent>
-          </Link>
-        </Card>
+      {/* Student Attendance */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
+            Student Attendance
+          </CardTitle>
+          <CardDescription>
+            Manage and track student attendance records
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-3">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
+              <Link href="/attendance/mark">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CalendarCheck className="h-8 w-8 text-primary" />
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <CardTitle className="mt-4">Mark Attendance</CardTitle>
+                  <CardDescription>
+                    Record daily attendance for students
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full" asChild>
+                    <span>
+                      <CalendarCheck className="mr-2 h-4 w-4" />
+                      Start Marking
+                    </span>
+                  </Button>
+                </CardContent>
+              </Link>
+            </Card>
 
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
-          <Link href="/attendance/reports">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <FileText className="h-8 w-8 text-primary" />
-                <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-              </div>
-              <CardTitle className="mt-4">Attendance Reports</CardTitle>
-              <CardDescription>
-                View detailed reports and analytics on student attendance
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" asChild>
-                <span>
-                  <FileText className="mr-2 h-4 w-4" />
-                  View Reports
-                </span>
-              </Button>
-            </CardContent>
-          </Link>
-        </Card>
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
+              <Link href="/attendance/reports">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <FileText className="h-8 w-8 text-primary" />
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <CardTitle className="mt-4">Reports</CardTitle>
+                  <CardDescription>
+                    View detailed attendance reports
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button variant="outline" className="w-full" asChild>
+                    <span>
+                      <FileText className="mr-2 h-4 w-4" />
+                      View Reports
+                    </span>
+                  </Button>
+                </CardContent>
+              </Link>
+            </Card>
 
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
-          <Link href="/attendance/reports">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <TrendingUp className="h-8 w-8 text-primary" />
-                <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-              </div>
-              <CardTitle className="mt-4">Low Attendance</CardTitle>
-              <CardDescription>
-                Identify students with attendance below threshold
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" className="w-full" asChild>
-                <span>
-                  <TrendingUp className="mr-2 h-4 w-4" />
-                  View Defaulters
-                </span>
-              </Button>
-            </CardContent>
-          </Link>
-        </Card>
-      </div>
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
+              <Link href="/attendance/trends">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <BarChart3 className="h-8 w-8 text-primary" />
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <CardTitle className="mt-4">Trends</CardTitle>
+                  <CardDescription>
+                    Analyze attendance patterns
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button variant="outline" className="w-full" asChild>
+                    <span>
+                      <BarChart3 className="mr-2 h-4 w-4" />
+                      View Trends
+                    </span>
+                  </Button>
+                </CardContent>
+              </Link>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Teacher Attendance */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <UserCheck className="h-5 w-5" />
+            Teacher Attendance
+          </CardTitle>
+          <CardDescription>
+            Manage and track staff attendance records
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
+              <Link href="/attendance/teachers/mark">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <UserCheck className="h-8 w-8 text-primary" />
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <CardTitle className="mt-4">Mark Teacher Attendance</CardTitle>
+                  <CardDescription>
+                    Record daily attendance for teachers
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full" asChild>
+                    <span>
+                      <UserCheck className="mr-2 h-4 w-4" />
+                      Start Marking
+                    </span>
+                  </Button>
+                </CardContent>
+              </Link>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
+              <Link href="/attendance/teachers/reports">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <FileText className="h-8 w-8 text-primary" />
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <CardTitle className="mt-4">Teacher Reports</CardTitle>
+                  <CardDescription>
+                    View staff attendance reports
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button variant="outline" className="w-full" asChild>
+                    <span>
+                      <FileText className="mr-2 h-4 w-4" />
+                      View Reports
+                    </span>
+                  </Button>
+                </CardContent>
+              </Link>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Features Overview */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle>Attendance Features</CardTitle>
+            <CardTitle>Core Features</CardTitle>
             <CardDescription>
-              Comprehensive attendance tracking system
+              Essential attendance tracking
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -112,7 +191,7 @@ export default function AttendancePage() {
               <div>
                 <p className="font-medium">Multiple Status Options</p>
                 <p className="text-sm text-muted-foreground">
-                  Mark as Present, Absent, Late, Half-Day, or Leave
+                  Present, Absent, Late, Half-Day, Leave
                 </p>
               </div>
             </div>
@@ -121,7 +200,7 @@ export default function AttendancePage() {
               <div>
                 <p className="font-medium">Quick Marking</p>
                 <p className="text-sm text-muted-foreground">
-                  Bulk mark all present with one click, then adjust individually
+                  Bulk mark with one click
                 </p>
               </div>
             </div>
@@ -130,16 +209,16 @@ export default function AttendancePage() {
               <div>
                 <p className="font-medium">Edit Anytime</p>
                 <p className="text-sm text-muted-foreground">
-                  View and edit attendance records for any previous date
+                  Update any previous records
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium">Add Remarks</p>
+                <p className="font-medium">Time Tracking</p>
                 <p className="text-sm text-muted-foreground">
-                  Optional notes for each student's attendance record
+                  In/Out times for teachers
                 </p>
               </div>
             </div>
@@ -148,45 +227,92 @@ export default function AttendancePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Reporting Features</CardTitle>
+            <CardTitle>Reports & Analytics</CardTitle>
             <CardDescription>
-              Detailed analytics and insights
+              Detailed insights and analysis
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-start gap-3">
               <FileText className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium">Class-wise Reports</p>
+                <p className="font-medium">Comprehensive Reports</p>
                 <p className="text-sm text-muted-foreground">
-                  View attendance summary for entire class with percentages
+                  Overview, class-wise, defaulters
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Users className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <BarChart3 className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium">Student-wise Analysis</p>
+                <p className="font-medium">Visual Trends</p>
                 <p className="text-sm text-muted-foreground">
-                  Individual student attendance history and trends
+                  Charts and graphs for patterns
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <TrendingUp className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium">Defaulters List</p>
+                <p className="font-medium">Performance Tracking</p>
                 <p className="text-sm text-muted-foreground">
-                  Students with attendance below 75% threshold
+                  Monthly trends and comparisons
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Clock className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <Users className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium">Date Range Reports</p>
+                <p className="font-medium">Individual Profiles</p>
                 <p className="text-sm text-muted-foreground">
-                  Generate reports for any custom date range
+                  Attendance on student profiles
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Advanced Features</CardTitle>
+            <CardDescription>
+              Export and notifications
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex items-start gap-3">
+              <Download className="h-5 w-5 text-purple-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium">CSV Export</p>
+                <p className="text-sm text-muted-foreground">
+                  Download reports in Excel format
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Bell className="h-5 w-5 text-purple-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium">SMS Alerts</p>
+                <p className="text-sm text-muted-foreground">
+                  Notify parents of absences
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <UserCheck className="h-5 w-5 text-purple-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium">Staff Attendance</p>
+                <p className="text-sm text-muted-foreground">
+                  Track teacher attendance too
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Clock className="h-5 w-5 text-purple-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium">Date Range Filters</p>
+                <p className="text-sm text-muted-foreground">
+                  Custom period reports
                 </p>
               </div>
             </div>

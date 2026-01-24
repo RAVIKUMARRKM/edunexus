@@ -20,6 +20,7 @@ import {
   X,
   LogOut,
   User,
+  Key,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { PasswordChangeGuard } from '@/components/auth/PasswordChangeGuard';
 
 const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
@@ -173,6 +175,12 @@ export default function DashboardLayout({
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
+                    <Link href="/change-password" className="flex items-center">
+                      <Key className="mr-2 h-4 w-4" />
+                      <span>Change Password</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link href="/settings" className="flex items-center">
                       <Settings className="mr-2 h-4 w-4" />
                       <span>Settings</span>
@@ -193,7 +201,9 @@ export default function DashboardLayout({
         </header>
 
         {/* Page Content */}
-        <main className="p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="p-4 sm:p-6 lg:p-8">
+          <PasswordChangeGuard>{children}</PasswordChangeGuard>
+        </main>
       </div>
 
       {/* Overlay for mobile */}

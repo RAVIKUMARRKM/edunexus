@@ -25,6 +25,8 @@ model User {
   role          Role      @default(STAFF)
   isActive      Boolean   @default(true)
   emailVerified DateTime?
+  forcePasswordChange Boolean @default(true) // Force password change on first login
+  lastPasswordChange DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

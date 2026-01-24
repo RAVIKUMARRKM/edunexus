@@ -44,6 +44,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           role: user.role,
           image: user.avatar,
+          forcePasswordChange: user.forcePasswordChange,
         };
       },
     }),
@@ -53,6 +54,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.forcePasswordChange = user.forcePasswordChange;
       }
       return token;
     },
@@ -60,6 +62,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
+        session.user.forcePasswordChange = token.forcePasswordChange as boolean;
       }
       return session;
     },
@@ -75,12 +78,14 @@ declare module 'next-auth' {
       name: string;
       role: string;
       image?: string;
+      forcePasswordChange: boolean;
     };
   }
 
   interface User {
     id: string;
     role: string;
+    forcePasswordChange: boolean;
   }
 }
 
@@ -88,5 +93,6 @@ declare module 'next-auth/jwt' {
   interface JWT {
     id: string;
     role: string;
+    forcePasswordChange: boolean;
   }
 }

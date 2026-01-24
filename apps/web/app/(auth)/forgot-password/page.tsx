@@ -29,6 +29,7 @@ type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [resetUrl, setResetUrl] = useState<string | null>(null);
+  const [isStudent, setIsStudent] = useState(false);
 
   const {
     register,
@@ -50,11 +51,16 @@ export default function ForgotPasswordPage() {
       const result = await response.json();
 
       if (response.ok) {
-        toast.success(result.message);
+        if (result.isStudent) {
+          setIsStudent(true);
+          toast.error(result.message);
+        } else {
+          toast.success(result.message);
 
-        // In development, show the reset URL
-        if (result.resetUrl) {
-          setResetUrl(result.resetUrl);
+          // In development, show the reset URL
+          if (result.resetUrl) {
+            setResetUrl(result.resetUrl);
+          }
         }
       } else {
         toast.error(result.error || 'An error occurred');
@@ -83,7 +89,7 @@ export default function ForgotPasswordPage() {
           </CardDescription>
         </CardHeader>
 
-        {!resetUrl ? (
+        {!resetUrl && !isStudent ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -91,7 +97,7 @@ export default function ForgotPasswordPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@edunexus.com"
+                  placeholder="teacher@edunexus.com"
                   {...register('email')}
                   disabled={isLoading}
                 />
@@ -140,7 +146,26 @@ export default function ForgotPasswordPage() {
               </Button>
             </Link>
           </CardContent>
-        )}
+        ) : isStudent ? (
+          <CardContent className="space-y-4">
+            <div className="rounded-lg border border-orange-200 bg-orange-50 dark:bg-orange-900/20 p-4">
+              <p className="text-sm font-medium text-orange-800 dark:text-orange-200 mb-2">
+                Password Reset Not Available
+              </p>
+              <p className="text-sm text-orange-700 dark:text-orange-300">
+                Students cannot reset their passwords via email. Please contact
+                your school administrator or class teacher for assistance with
+                resetting your password.
+              </p>
+            </div>
+            <Link href="/login">
+              <Button variant="outline" className="w-full">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Login
+              </Button>
+            </Link>
+          </CardContent>
+        ) : null}
       </Card>
     </div>
   );

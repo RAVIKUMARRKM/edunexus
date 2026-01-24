@@ -21,10 +21,20 @@ export async function POST(request: NextRequest) {
     // Always return success to prevent email enumeration
     if (!user) {
       return NextResponse.json({
-        message: 'If the email exists, a password reset link has been sent',
+        message: 'If your email is eligible for self-reset, a password reset link has been sent',
       });
     }
 
+    // Role-based password reset restriction
+    // Students cannot reset their own passwords - must contact admin
+    if (user.role === 'STUDENT') {
+      return NextResponse.json({
+        message: 'Students cannot reset passwords via email. Please contact your school administrator.',
+        isStudent: true,
+      });
+    }
+
+    // Teachers, Staff, and other roles can use email-based reset
     // Generate reset token
     const token = randomBytes(32).toString('hex');
     const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
@@ -57,7 +67,7 @@ export async function POST(request: NextRequest) {
     console.log('Password reset link:', resetUrl);
 
     return NextResponse.json({
-      message: 'If the email exists, a password reset link has been sent',
+      message: 'A password reset link has been sent to your email',
       // Remove this in production:
       resetUrl: process.env.NODE_ENV === 'development' ? resetUrl : undefined,
     });

@@ -115,10 +115,7 @@ export default function LoginPage() {
               Sign In
             </Button>
             <p className="text-sm text-muted-foreground text-center">
-              Don&apos;t have an account?{' '}
-              <Link href="/register" className="text-primary hover:underline">
-                Contact Admin
-              </Link>
+              Don&apos;t have an account? Contact your school administrator
             </p>
           </CardFooter>
         </form>

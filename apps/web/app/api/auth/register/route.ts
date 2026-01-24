@@ -1,15 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@edunexus/database';
 import { hash } from 'bcryptjs';
 
+// This endpoint is now admin-only
+// Only admins can create new users (teachers, students, staff)
 export async function POST(request: NextRequest) {
   try {
-    const { email, password, name, phone } = await request.json();
+    // Check authentication
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user is admin
+    if (session.user.role !== 'ADMIN' && session.user.role !== 'SUPER_ADMIN') {
+      return NextResponse.json(
+        { error: 'Only administrators can create new users' },
+        { status: 403 }
+      );
+    }
+
+    const { email, password, name, phone, role } = await request.json();
 
     // Validation
-    if (!email || !password || !name) {
+    if (!email || !password || !name || !role) {
       return NextResponse.json(
-        { error: 'Email, password, and name are required' },
+        { error: 'Email, password, name, and role are required' },
         { status: 400 }
       );
     }
@@ -30,6 +52,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate role
+    const validRoles = ['TEACHER', 'STUDENT', 'STAFF', 'PARENT', 'ACCOUNTANT', 'LIBRARIAN', 'TRANSPORT_MANAGER', 'HOSTEL_WARDEN'];
+    if (!validRoles.includes(role)) {
+      return NextResponse.json(
+        { error: 'Invalid role' },
+        { status: 400 }
+      );
+    }
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -45,16 +76,16 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await hash(password, 12);
 
-    // Create user with PARENT role by default
-    // Parents can register themselves to track their children
+    // Create user - force password change on first login
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
         phone: phone || null,
-        role: 'PARENT',
+        role,
         isActive: true,
+        forcePasswordChange: true, // User must change password on first login
       },
       select: {
         id: true,
@@ -66,18 +97,20 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        message: 'Registration successful! You can now login.',
+        message: 'User created successfully',
         user: {
+          id: user.id,
           email: user.email,
           name: user.name,
+          role: user.role,
         },
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('User creation error:', error);
     return NextResponse.json(
-      { error: 'An error occurred during registration' },
+      { error: 'An error occurred while creating user' },
       { status: 500 }
     );
   }

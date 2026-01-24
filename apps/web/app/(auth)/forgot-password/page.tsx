@@ -122,7 +122,7 @@ export default function ForgotPasswordPage() {
               </Link>
             </CardFooter>
           </form>
-        ) : (
+        ) : resetUrl ? (
           <CardContent className="space-y-4">
             <div className="rounded-lg border border-green-200 bg-green-50 dark:bg-green-900/20 p-4">
               <p className="text-sm font-medium text-green-800 dark:text-green-200 mb-2">

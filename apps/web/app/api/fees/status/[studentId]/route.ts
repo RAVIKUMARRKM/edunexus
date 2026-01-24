@@ -40,26 +40,44 @@ export async function GET(
       return NextResponse.json({ error: 'Student not found' }, { status: 404 });
     }
 
-    // Get current academic year
-    const currentAcademicYear = await prisma.academicYear.findFirst({
+    // Get current academic year, or the most recent one
+    let currentAcademicYear = await prisma.academicYear.findFirst({
       where: { isCurrent: true },
     });
 
+    // If no current academic year, get the most recent one
     if (!currentAcademicYear) {
-      return NextResponse.json(
-        { error: 'No current academic year found' },
-        { status: 404 }
-      );
+      currentAcademicYear = await prisma.academicYear.findFirst({
+        orderBy: { startDate: 'desc' },
+      });
+    }
+
+    if (!currentAcademicYear) {
+      return NextResponse.json({
+        student,
+        academicYear: null,
+        feeStatus: [],
+        summary: {
+          totalAmount: 0,
+          totalPaid: 0,
+          totalBalance: 0,
+          totalConcession: 0,
+        },
+        recentPayments: [],
+        message: 'No academic year found. Please create an academic year first.',
+      });
     }
 
     // Get applicable fee structures
     const feeStructures = await prisma.feeStructure.findMany({
       where: {
         academicYearId: currentAcademicYear.id,
-        OR: [
-          { classId: student.classId },
-          { classId: null }, // Global fees
-        ],
+        OR: student.classId
+          ? [
+              { classId: student.classId },
+              { classId: null }, // Global fees
+            ]
+          : [{ classId: null }], // Only global fees if no class assigned
       },
     });
 

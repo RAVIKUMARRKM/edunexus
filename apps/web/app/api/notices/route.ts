@@ -26,8 +26,9 @@ export async function GET(request: NextRequest) {
       ],
     };
 
-    // Filter by user role
-    if (session.user.role) {
+    // Filter by user role (admin roles can see all notices)
+    const adminRoles = ['SUPER_ADMIN', 'ADMIN', 'PRINCIPAL'];
+    if (session.user.role && !adminRoles.includes(session.user.role)) {
       where.targetRoles = {
         has: session.user.role,
       };

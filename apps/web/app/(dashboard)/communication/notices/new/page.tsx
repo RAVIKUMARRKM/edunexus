@@ -39,7 +39,11 @@ export default function CreateNoticePage() {
     { value: 'PARENT', label: 'Parents' },
     { value: 'TEACHER', label: 'Teachers' },
     { value: 'STAFF', label: 'Staff' },
+    { value: 'ADMIN', label: 'Admins' },
+    { value: 'PRINCIPAL', label: 'Principal' },
   ];
+
+  const allRoleValues = roles.map(r => r.value);
 
   const handleSubmit = async (e: React.FormEvent, publish: boolean) => {
     e.preventDefault();
@@ -76,6 +80,20 @@ export default function CreateNoticePage() {
       targetRoles: prev.targetRoles.includes(role)
         ? prev.targetRoles.filter((r) => r !== role)
         : [...prev.targetRoles, role],
+    }));
+  };
+
+  const selectAllRoles = () => {
+    setFormData((prev) => ({
+      ...prev,
+      targetRoles: allRoleValues,
+    }));
+  };
+
+  const clearAllRoles = () => {
+    setFormData((prev) => ({
+      ...prev,
+      targetRoles: [],
     }));
   };
 
@@ -153,7 +171,27 @@ export default function CreateNoticePage() {
 
             {/* Target Roles */}
             <div className="space-y-2">
-              <Label>Target Audience *</Label>
+              <div className="flex items-center justify-between">
+                <Label>Target Audience *</Label>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={selectAllRoles}
+                  >
+                    Select All
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearAllRoles}
+                  >
+                    Clear All
+                  </Button>
+                </div>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {roles.map((role) => (
                   <Button

@@ -31,7 +31,7 @@ import { cn } from '@/lib/utils';
 export default function AttendanceTrendsPage() {
   const [startDate, setStartDate] = useState<Date>(subDays(new Date(), 30));
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClass, setSelectedClass] = useState('all');
   const [classes, setClasses] = useState<any[]>([]);
   const [trendsData, setTrendsData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ export default function AttendanceTrendsPage() {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       });
-      if (selectedClass) params.append('classId', selectedClass);
+      if (selectedClass && selectedClass !== 'all') params.append('classId', selectedClass);
 
       const res = await fetch(`/api/attendance/trends?${params}`);
       if (res.ok) {
@@ -157,7 +157,7 @@ export default function AttendanceTrendsPage() {
                   <SelectValue placeholder="All classes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Classes</SelectItem>
+                  <SelectItem value="all">All Classes</SelectItem>
                   {classes.map((cls) => (
                     <SelectItem key={cls.id} value={cls.id}>
                       {cls.name}

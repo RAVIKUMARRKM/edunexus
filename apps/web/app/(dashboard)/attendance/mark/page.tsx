@@ -54,7 +54,7 @@ type AttendanceStatus = 'PRESENT' | 'ABSENT' | 'LATE' | 'HALF_DAY' | 'LEAVE';
 export default function MarkAttendancePage() {
   const [date, setDate] = useState<Date>(new Date());
   const [selectedClass, setSelectedClass] = useState('');
-  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedSection, setSelectedSection] = useState('all');
   const [classes, setClasses] = useState<any[]>([]);
   const [sections, setSections] = useState<any[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
@@ -116,7 +116,7 @@ export default function MarkAttendancePage() {
         classId: selectedClass,
         date: date.toISOString(),
       });
-      if (selectedSection) params.append('sectionId', selectedSection);
+      if (selectedSection && selectedSection !== 'all') params.append('sectionId', selectedSection);
 
       const res = await fetch(`/api/attendance/students?${params}`);
       if (res.ok) {
@@ -330,7 +330,7 @@ export default function MarkAttendancePage() {
                   <SelectValue placeholder="All sections" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Sections</SelectItem>
+                  <SelectItem value="all">All Sections</SelectItem>
                   {sections.map((section) => (
                     <SelectItem key={section.id} value={section.id}>
                       {section.name}

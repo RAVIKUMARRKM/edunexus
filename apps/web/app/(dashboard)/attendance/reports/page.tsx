@@ -51,8 +51,8 @@ import {
 export default function AttendanceReportsPage() {
   const [startDate, setStartDate] = useState<Date>(new Date(new Date().setDate(1))); // First day of month
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [selectedClass, setSelectedClass] = useState('');
-  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedClass, setSelectedClass] = useState('all');
+  const [selectedSection, setSelectedSection] = useState('all');
   const [classes, setClasses] = useState<any[]>([]);
   const [sections, setSections] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -67,7 +67,7 @@ export default function AttendanceReportsPage() {
   }, []);
 
   useEffect(() => {
-    if (selectedClass) {
+    if (selectedClass && selectedClass !== 'all') {
       fetchSections();
     } else {
       setSections([]);
@@ -138,8 +138,8 @@ export default function AttendanceReportsPage() {
         endDate: endDate.toISOString(),
         threshold: '75',
       });
-      if (selectedClass) params.append('classId', selectedClass);
-      if (selectedSection) params.append('sectionId', selectedSection);
+      if (selectedClass && selectedClass !== 'all') params.append('classId', selectedClass);
+      if (selectedSection && selectedSection !== 'all') params.append('sectionId', selectedSection);
 
       const res = await fetch(`/api/attendance/reports?${params}`);
       if (res.ok) {
@@ -163,8 +163,8 @@ export default function AttendanceReportsPage() {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       });
-      if (selectedClass) params.append('classId', selectedClass);
-      if (selectedSection) params.append('sectionId', selectedSection);
+      if (selectedClass && selectedClass !== 'all') params.append('classId', selectedClass);
+      if (selectedSection && selectedSection !== 'all') params.append('sectionId', selectedSection);
 
       const res = await fetch(`/api/attendance/reports?${params}`);
       if (res.ok) {
@@ -292,7 +292,7 @@ export default function AttendanceReportsPage() {
                   <SelectValue placeholder="All classes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Classes</SelectItem>
+                  <SelectItem value="all">All Classes</SelectItem>
                   {classes.map((cls) => (
                     <SelectItem key={cls.id} value={cls.id}>
                       {cls.name}
@@ -309,7 +309,7 @@ export default function AttendanceReportsPage() {
                   <SelectValue placeholder="All sections" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Sections</SelectItem>
+                  <SelectItem value="all">All Sections</SelectItem>
                   {sections.map((section) => (
                     <SelectItem key={section.id} value={section.id}>
                       {section.name}

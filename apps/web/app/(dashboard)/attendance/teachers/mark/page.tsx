@@ -56,7 +56,7 @@ export default function MarkTeacherAttendancePage() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [departments, setDepartments] = useState<any[]>([]);
-  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState('all');
 
   useEffect(() => {
     fetchDepartments();
@@ -86,7 +86,7 @@ export default function MarkTeacherAttendancePage() {
       const params = new URLSearchParams({
         date: date.toISOString(),
       });
-      if (selectedDepartment) params.append('departmentId', selectedDepartment);
+      if (selectedDepartment && selectedDepartment !== 'all') params.append('departmentId', selectedDepartment);
 
       const res = await fetch(`/api/attendance/teachers?${params}`);
       if (res.ok) {
@@ -287,7 +287,7 @@ export default function MarkTeacherAttendancePage() {
                   <SelectValue placeholder="All departments" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Departments</SelectItem>
+                  <SelectItem value="all">All Departments</SelectItem>
                   {departments.map((dept) => (
                     <SelectItem key={dept.id} value={dept.id}>
                       {dept.name}

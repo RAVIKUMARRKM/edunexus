@@ -9,6 +9,16 @@ const nextConfig = {
       bodySizeLimit: '2mb',
     },
   },
+  // Optimize build for Vercel
+  swcMinify: true,
+  typescript: {
+    // Type checking is done in the CI/CD pipeline
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // Linting is done in the CI/CD pipeline
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;

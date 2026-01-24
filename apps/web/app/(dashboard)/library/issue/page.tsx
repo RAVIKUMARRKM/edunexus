@@ -17,6 +17,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { format } from 'date-fns';
 import { BookCheck, Plus } from 'lucide-react';
 
+// Force dynamic rendering to avoid build-time fetch errors
+export const dynamic = 'force-dynamic';
+
 async function getIssues(status?: string) {
   try {
     const params = new URLSearchParams();

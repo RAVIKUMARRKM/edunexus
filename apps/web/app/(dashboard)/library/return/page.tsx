@@ -22,6 +22,9 @@ import {
 import { format } from 'date-fns';
 import { BookX } from 'lucide-react';
 
+// Force dynamic rendering to avoid build-time fetch errors
+export const dynamic = 'force-dynamic';
+
 async function getIssuedBooks() {
   try {
     const response = await fetch(

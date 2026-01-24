@@ -13,6 +13,9 @@ import {
   BookX,
 } from 'lucide-react';
 
+// Force dynamic rendering to avoid build-time fetch errors
+export const dynamic = 'force-dynamic';
+
 async function getLibraryStats() {
   try {
     const response = await fetch(

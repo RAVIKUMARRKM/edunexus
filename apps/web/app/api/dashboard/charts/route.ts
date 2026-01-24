@@ -115,7 +115,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const classData = classDistribution.map((cls) => ({
+    const classData = classDistribution.map((cls: any) => ({
       class: cls.name,
       students: cls._count.students,
     }));

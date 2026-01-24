@@ -4,12 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AttendanceMarker } from '@/components/students/AttendanceMarker';
 import { useToast } from '@/components/ui/toast';
+import { Calendar, TrendingUp, TrendingDown } from 'lucide-react';
+import { format, startOfMonth, endOfMonth, eachMonthOfInterval, subMonths } from 'date-fns';
 
 export default function StudentProfilePage() {
   const params = useParams();
@@ -23,6 +25,64 @@ export default function StudentProfilePage() {
       if (!response.ok) throw new Error('Failed to fetch student');
       return response.json();
     },
+  });
+
+  // Fetch attendance statistics
+  const { data: attendanceStats } = useQuery({
+    queryKey: ['student-attendance-stats', studentId],
+    queryFn: async () => {
+      const startDate = subMonths(new Date(), 6);
+      const endDate = new Date();
+      const params = new URLSearchParams({
+        type: 'summary',
+        studentId: studentId,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      });
+      const response = await fetch(`/api/attendance/reports?${params}`);
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.students?.[0] || null;
+    },
+    enabled: !!studentId,
+  });
+
+  // Fetch monthly attendance breakdown
+  const { data: monthlyData } = useQuery({
+    queryKey: ['student-monthly-attendance', studentId],
+    queryFn: async () => {
+      const startDate = subMonths(startOfMonth(new Date()), 5);
+      const endDate = endOfMonth(new Date());
+
+      const months = eachMonthOfInterval({ start: startDate, end: endDate });
+
+      const monthlyPromises = months.map(async (month) => {
+        const start = startOfMonth(month);
+        const end = endOfMonth(month);
+
+        const params = new URLSearchParams({
+          type: 'summary',
+          studentId: studentId,
+          startDate: start.toISOString(),
+          endDate: end.toISOString(),
+        });
+
+        const response = await fetch(`/api/attendance/reports?${params}`);
+        if (!response.ok) return null;
+        const data = await response.json();
+        const studentData = data.students?.[0];
+
+        return {
+          month: format(month, 'MMM yyyy'),
+          percentage: studentData?.attendancePercentage || 0,
+          present: studentData?.present || 0,
+          total: studentData?.totalDays || 0,
+        };
+      });
+
+      return await Promise.all(monthlyPromises);
+    },
+    enabled: !!studentId,
   });
 
   const handleMarkAttendance = async (attendanceData: any) => {
@@ -302,6 +362,108 @@ export default function StudentProfilePage() {
             studentId={studentId}
             onSubmit={handleMarkAttendance}
           />
+
+          {/* Attendance Statistics */}
+          {attendanceStats && (
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Attendance Overview (Last 6 Months)</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="text-center p-4 border rounded-lg">
+                  <p className="text-sm font-medium text-muted-foreground">Total Days</p>
+                  <p className="text-2xl font-bold">{attendanceStats.totalDays}</p>
+                </div>
+                <div className="text-center p-4 border rounded-lg">
+                  <p className="text-sm font-medium text-muted-foreground">Present</p>
+                  <p className="text-2xl font-bold text-green-600">{attendanceStats.present}</p>
+                </div>
+                <div className="text-center p-4 border rounded-lg">
+                  <p className="text-sm font-medium text-muted-foreground">Absent</p>
+                  <p className="text-2xl font-bold text-red-600">{attendanceStats.absent}</p>
+                </div>
+                <div className="text-center p-4 border rounded-lg">
+                  <p className="text-sm font-medium text-muted-foreground">Attendance %</p>
+                  <p className="text-2xl font-bold text-primary">
+                    {attendanceStats.attendancePercentage}%
+                  </p>
+                  <Badge
+                    variant={
+                      attendanceStats.attendancePercentage >= 90
+                        ? 'default'
+                        : attendanceStats.attendancePercentage >= 75
+                        ? 'secondary'
+                        : 'destructive'
+                    }
+                    className="mt-1"
+                  >
+                    {attendanceStats.attendancePercentage >= 90
+                      ? 'Excellent'
+                      : attendanceStats.attendancePercentage >= 75
+                      ? 'Good'
+                      : 'Low'}
+                  </Badge>
+                </div>
+              </div>
+
+              {/* Breakdown by Status */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  <span className="text-sm">Present: {attendanceStats.present}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <span className="text-sm">Absent: {attendanceStats.absent}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                  <span className="text-sm">Late: {attendanceStats.late || 0}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                  <span className="text-sm">Leave: {attendanceStats.leave || 0}</span>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* Monthly Attendance Trend */}
+          {monthlyData && monthlyData.length > 0 && (
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                Monthly Attendance Trend
+              </h3>
+              <div className="space-y-3">
+                {monthlyData.map((month: any, index: number) => (
+                  <div key={index} className="flex items-center gap-4">
+                    <div className="w-20 text-sm font-medium">{month.month}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 bg-gray-200 rounded-full h-6 overflow-hidden">
+                          <div
+                            className={`h-full transition-all ${
+                              month.percentage >= 90
+                                ? 'bg-green-500'
+                                : month.percentage >= 75
+                                ? 'bg-yellow-500'
+                                : 'bg-red-500'
+                            }`}
+                            style={{ width: `${month.percentage}%` }}
+                          />
+                        </div>
+                        <div className="w-16 text-right font-medium text-sm">
+                          {month.percentage}%
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-20 text-sm text-muted-foreground text-right">
+                      {month.present}/{month.total}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
 
           {/* Recent Attendance */}
           {student.attendances && student.attendances.length > 0 && (

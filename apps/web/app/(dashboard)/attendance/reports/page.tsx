@@ -40,6 +40,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import {
+  exportToCSV,
+  printToPDF,
+  formatClassReportForExport,
+  formatDefaultersReportForExport,
+  formatOverviewReportForExport,
+} from '@/lib/export-utils';
 
 export default function AttendanceReportsPage() {
   const [startDate, setStartDate] = useState<Date>(new Date(new Date().setDate(1))); // First day of month
@@ -185,6 +192,36 @@ export default function AttendanceReportsPage() {
     return 'destructive';
   };
 
+  const exportOverviewReport = () => {
+    if (!overviewReport) {
+      toast.error('No data to export');
+      return;
+    }
+    const data = formatOverviewReportForExport(overviewReport.overview);
+    exportToCSV(data, 'attendance-overview');
+    toast.success('Report exported successfully');
+  };
+
+  const exportClassReport = () => {
+    if (!classReport || !classReport.students) {
+      toast.error('No data to export');
+      return;
+    }
+    const data = formatClassReportForExport(classReport.students);
+    exportToCSV(data, 'class-attendance-report');
+    toast.success('Report exported successfully');
+  };
+
+  const exportDefaultersReport = () => {
+    if (!defaultersReport || !defaultersReport.defaulters) {
+      toast.error('No data to export');
+      return;
+    }
+    const data = formatDefaultersReportForExport(defaultersReport.defaulters);
+    exportToCSV(data, 'low-attendance-report');
+    toast.success('Report exported successfully');
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -308,9 +345,9 @@ export default function AttendanceReportsPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Attendance Overview</CardTitle>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={exportOverviewReport}>
                   <Download className="mr-2 h-4 w-4" />
-                  Export
+                  Export CSV
                 </Button>
               </div>
               <CardDescription>
@@ -390,9 +427,9 @@ export default function AttendanceReportsPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Class-wise Attendance Report</CardTitle>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={exportClassReport}>
                   <Download className="mr-2 h-4 w-4" />
-                  Export
+                  Export CSV
                 </Button>
               </div>
             </CardHeader>
@@ -466,9 +503,9 @@ export default function AttendanceReportsPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Low Attendance Students (&lt; 75%)</CardTitle>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={exportDefaultersReport}>
                   <Download className="mr-2 h-4 w-4" />
-                  Export
+                  Export CSV
                 </Button>
               </div>
             </CardHeader>

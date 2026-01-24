@@ -4,6 +4,8 @@ import { prisma } from '@edunexus/database';
 import { authOptions } from '@/lib/auth';
 
 // PUT /api/hr/leave/[id]/approve - Approve or reject leave request
+export const dynamic = 'force-dynamic';
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }

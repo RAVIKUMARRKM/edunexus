@@ -5,6 +5,8 @@ import { prisma } from '@edunexus/database';
 import { hash } from 'bcryptjs';
 
 // Admin endpoint to manually reset any user's password
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     // Check authentication

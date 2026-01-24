@@ -23,6 +23,8 @@ const bookSchema = z.object({
 });
 
 // GET /api/library/books - Get all books with filters
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

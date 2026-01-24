@@ -6,6 +6,8 @@ import { format } from 'date-fns';
 
 // SMS notification for absent students
 // This is a template - integrate with your SMS provider (Twilio, MSG91, etc.)
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/../../packages/database/src';
 
 // GET /api/transport/routes - Get all routes
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const routes = await prisma.route.findMany({

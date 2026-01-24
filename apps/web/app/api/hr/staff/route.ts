@@ -5,6 +5,8 @@ import { authOptions } from '@/lib/auth';
 import { hash } from 'bcryptjs';
 
 // GET /api/hr/staff - Get all staff
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

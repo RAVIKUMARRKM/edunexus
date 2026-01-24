@@ -4,6 +4,8 @@ import { studentSchema } from '@edunexus/shared';
 import { getServerSession } from 'next-auth';
 
 // GET /api/students - List all students with filters
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession();

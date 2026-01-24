@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@edunexus/database';
 
 // GET /api/exams/[id]/report-card/[studentId] - Generate report card
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string; studentId: string } }

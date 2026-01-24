@@ -4,6 +4,8 @@ import { prisma } from '@edunexus/database';
 import { authOptions } from '@/lib/auth';
 
 // GET /api/inventory/items - Get all inventory items
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

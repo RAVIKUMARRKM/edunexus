@@ -27,6 +27,8 @@ const feeStructureSchema = z.object({
 });
 
 // GET - Fetch all fee structures
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

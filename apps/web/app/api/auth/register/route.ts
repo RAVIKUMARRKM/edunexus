@@ -6,6 +6,8 @@ import { hash } from 'bcryptjs';
 
 // This endpoint is now admin-only
 // Only admins can create new users (teachers, students, staff)
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     // Check authentication

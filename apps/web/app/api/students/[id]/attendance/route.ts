@@ -10,6 +10,8 @@ const attendanceSchema = z.object({
 });
 
 // POST /api/students/[id]/attendance - Mark attendance for a student
+export const dynamic = 'force-dynamic';
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }

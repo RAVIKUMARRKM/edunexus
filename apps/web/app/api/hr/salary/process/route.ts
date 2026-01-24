@@ -4,6 +4,8 @@ import { prisma } from '@edunexus/database';
 import { authOptions } from '@/lib/auth';
 
 // POST /api/hr/salary/process - Process monthly salary for all staff
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

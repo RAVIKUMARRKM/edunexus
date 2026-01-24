@@ -12,6 +12,8 @@ const returnSchema = z.object({
 });
 
 // PUT /api/library/issues/[id]/return - Return a book
+export const dynamic = 'force-dynamic';
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }

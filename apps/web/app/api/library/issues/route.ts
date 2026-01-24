@@ -12,6 +12,8 @@ const issueSchema = z.object({
 });
 
 // GET /api/library/issues - Get all book issues
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

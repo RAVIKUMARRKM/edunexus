@@ -3,6 +3,8 @@ import { prisma } from '@edunexus/database';
 import { getServerSession } from 'next-auth';
 
 // GET /api/classes/[id]/subjects - Get all subjects for a class
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }

@@ -22,6 +22,8 @@ async function calculateGrade(percentage: number): Promise<string> {
 }
 
 // GET /api/exams/[id]/results - Get exam results
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }

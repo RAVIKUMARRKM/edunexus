@@ -101,38 +101,41 @@ export default function SettingsPage() {
           const colors = getColorClasses(module.color);
           const Icon = module.icon;
 
-          const CardWrapper = module.disabled ? 'div' : Link;
-          const cardProps = module.disabled ? {} : { href: module.href };
-
-          return (
-            <CardWrapper key={module.title} {...cardProps}>
-              <Card
-                className={`hover:shadow-lg transition-shadow h-full ${
-                  module.disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
-                }`}
-              >
-                <CardHeader>
-                  <div className="flex items-start space-x-3">
-                    <div className={`p-3 ${colors.bg} rounded-lg`}>
-                      <Icon className={`h-6 w-6 ${colors.icon}`} />
-                    </div>
-                    <div className="flex-1">
-                      <CardTitle className="text-lg flex items-center justify-between">
-                        {module.title}
-                        {module.disabled && (
-                          <span className="text-xs font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                            Coming Soon
-                          </span>
-                        )}
-                      </CardTitle>
-                    </div>
+          const cardContent = (
+            <Card
+              className={`hover:shadow-lg transition-shadow h-full ${
+                module.disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
+              }`}
+            >
+              <CardHeader>
+                <div className="flex items-start space-x-3">
+                  <div className={`p-3 ${colors.bg} rounded-lg`}>
+                    <Icon className={`h-6 w-6 ${colors.icon}`} />
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-600">{module.description}</p>
-                </CardContent>
-              </Card>
-            </CardWrapper>
+                  <div className="flex-1">
+                    <CardTitle className="text-lg flex items-center justify-between">
+                      {module.title}
+                      {module.disabled && (
+                        <span className="text-xs font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                          Coming Soon
+                        </span>
+                      )}
+                    </CardTitle>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">{module.description}</p>
+              </CardContent>
+            </Card>
+          );
+
+          return module.disabled ? (
+            <div key={module.title}>{cardContent}</div>
+          ) : (
+            <Link key={module.title} href={module.href}>
+              {cardContent}
+            </Link>
           );
         })}
       </div>

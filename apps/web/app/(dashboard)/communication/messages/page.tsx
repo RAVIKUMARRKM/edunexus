@@ -183,7 +183,7 @@ export default function MessagesPage() {
                     </div>
                     {!message.isRead && activeTab === 'received' && (
                       <div className="flex-shrink-0">
-                        <Badge variant="info">New</Badge>
+                        <Badge variant="secondary">New</Badge>
                       </div>
                     )}
                   </div>

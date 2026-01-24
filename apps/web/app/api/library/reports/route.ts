@@ -282,10 +282,10 @@ async function getFinesReport(startDate: string | null, endDate: string | null) 
   return NextResponse.json({
     fines,
     summary: {
-      totalFines: summary._sum.fineAmount || 0,
+      totalFines: Number(summary._sum.fineAmount || 0),
       totalCount: summary._count.id,
-      paidAmount: paidFines._sum.fineAmount || 0,
-      unpaidAmount: (summary._sum.fineAmount || 0) - (paidFines._sum.fineAmount || 0),
+      paidAmount: Number(paidFines._sum.fineAmount || 0),
+      unpaidAmount: Number(summary._sum.fineAmount || 0) - Number(paidFines._sum.fineAmount || 0),
     },
   });
 }

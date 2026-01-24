@@ -60,15 +60,6 @@ export function StudentForm({
           </div>
 
           <div>
-            <Label htmlFor="rollNo">Roll Number</Label>
-            <Input
-              id="rollNo"
-              {...register('rollNo')}
-              placeholder="1"
-            />
-          </div>
-
-          <div>
             <Label htmlFor="firstName">First Name *</Label>
             <Input
               id="firstName"

@@ -50,12 +50,30 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
         token.forcePasswordChange = user.forcePasswordChange;
       }
+
+      // When session is updated (e.g., after password change), refetch user data
+      if (trigger === 'update' && token.id) {
+        const updatedUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: {
+            id: true,
+            role: true,
+            forcePasswordChange: true,
+          },
+        });
+
+        if (updatedUser) {
+          token.role = updatedUser.role;
+          token.forcePasswordChange = updatedUser.forcePasswordChange;
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {

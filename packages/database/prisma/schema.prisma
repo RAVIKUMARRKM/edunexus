@@ -156,6 +156,10 @@ model Student {
   hostelAllocation  HostelAllocation?
   documents         StudentDocument[]
 
+  @@index([classId])
+  @@index([sectionId])
+  @@index([status])
+  @@index([classId, sectionId])
   @@map("students")
 }
 
@@ -246,6 +250,8 @@ model StudentAttendance {
   createdAt DateTime         @default(now())
 
   @@unique([studentId, date])
+  @@index([date])
+  @@index([status])
   @@map("student_attendances")
 }
 
@@ -308,6 +314,8 @@ model Teacher {
   leaveRequests   LeaveRequest[]
   timetableSlots  TimetableSlot[]
 
+  @@index([departmentId])
+  @@index([status])
   @@map("teachers")
 }
 
@@ -358,6 +366,7 @@ model Class {
   exams           Exam[]
 
   @@unique([name, academicYearId])
+  @@index([academicYearId])
   @@map("classes")
 }
 

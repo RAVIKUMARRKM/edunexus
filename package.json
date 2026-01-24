@@ -17,7 +17,8 @@
     "db:push": "turbo db:push",
     "db:studio": "npm run --workspace=@edunexus/database studio",
     "db:seed": "turbo db:seed",
-    "clean": "turbo clean && rm -rf node_modules"
+    "clean": "turbo clean && rm -rf node_modules",
+    "postinstall": "turbo db:generate"
   },
   "devDependencies": {
     "turbo": "^2.0.0",

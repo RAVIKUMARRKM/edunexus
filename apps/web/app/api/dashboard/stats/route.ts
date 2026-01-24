@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const activities = recentActivities.map((student) => ({
+    const activities = recentActivities.map((student: any) => ({
       type: 'student_admission',
       title: 'New Student Admission',
       description: `${student.firstName} ${student.lastName} has been admitted`,

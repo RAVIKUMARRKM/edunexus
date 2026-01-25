@@ -103,146 +103,161 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Blue background with module icons */}
-      <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 bg-gradient-to-br from-[#003d82] via-[#0047a0] to-[#003366] relative overflow-hidden p-12">
-        {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
+    <div className="min-h-screen relative overflow-hidden bg-[#003d82]" style={{
+      background: 'linear-gradient(to bottom right, rgb(0, 61, 130), rgb(0, 71, 160), rgb(0, 51, 102))'
+    }}>
+      {/* Unified background pattern for entire page */}
+      <div className="absolute inset-0 opacity-10">
+        <div
+          className="absolute inset-0"
+          style={{
             backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
             backgroundSize: '40px 40px'
-          }}></div>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center w-full">
-          {/* Logo and tagline */}
-          <div className="mb-12 text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <GraduationCap className="h-12 w-12 text-white" />
-              <h1 className="text-4xl font-bold text-white">
-                edunexus<sup className="text-lg">®</sup>
-              </h1>
-            </div>
-            <div className="w-64 h-1 bg-gradient-to-r from-transparent via-white to-transparent mx-auto mb-6"></div>
-            <p className="text-xl text-white/90 max-w-lg mx-auto leading-relaxed">
-              An integrated platform for managing your educational institution.
-            </p>
-          </div>
-
-          {/* Module Icons Grid */}
-          <div className="grid grid-cols-6 gap-4 max-w-2xl mx-auto">
-            {moduleIcons.map((module, index) => {
-              const Icon = module.icon;
-              return (
-                <div
-                  key={index}
-                  className={`aspect-square rounded-3xl bg-gradient-to-br ${module.color} p-4 shadow-lg hover:scale-110 transition-transform duration-300 cursor-pointer flex items-center justify-center group`}
-                  title={module.label}
-                >
-                  <Icon className="h-8 w-8 text-white drop-shadow-lg" />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+          }}
+        />
       </div>
 
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-8 bg-gray-50 dark:bg-gray-900">
-        <div className="w-full max-w-md">
-          {/* Logo for mobile */}
-          <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
-            <GraduationCap className="h-10 w-10 text-primary" />
-            <span className="text-3xl font-bold text-primary">edunexus</span>
-          </div>
-
-          {/* Login Card */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-10">
-            {/* Logo */}
-            <div className="flex justify-center mb-8">
-              <div className="relative">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg">
-                  <GraduationCap className="h-12 w-12 text-white" />
-                </div>
+      {/* Content Container */}
+      <div className="relative z-10 min-h-screen flex">
+        {/* Left Side - Module icons */}
+        <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 p-12">
+          {/* Content */}
+          <div className="relative z-10 flex flex-col justify-center w-full">
+            {/* Logo and tagline */}
+            <div className="mb-12 text-center">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <GraduationCap className="h-12 w-12 text-white" />
+                <h1 className="text-4xl font-bold text-white">
+                  edunexus<sup className="text-lg">®</sup>
+                </h1>
               </div>
+              <div className="w-64 h-1 bg-gradient-to-r from-transparent via-white to-transparent mx-auto mb-6"></div>
+              <p className="text-xl text-white/90 max-w-lg mx-auto leading-relaxed">
+                An integrated platform for managing your educational institution.
+              </p>
             </div>
 
-            {/* Heading */}
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-8">
-              Login to get started
-            </h2>
+            {/* Module Icons Grid */}
+            <div className="grid grid-cols-6 gap-4 max-w-2xl mx-auto">
+              {moduleIcons.map((module, index) => {
+                const Icon = module.icon;
 
-            {/* Login Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {/* Username/Email Field */}
-              <div>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Username"
-                  {...register('email')}
-                  disabled={isLoading}
-                  className="h-12 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 focus:border-primary"
-                />
-                {errors.email && (
-                  <p className="text-sm text-destructive mt-1">{errors.email.message}</p>
-                )}
-              </div>
-
-              {/* Password Field */}
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Password"
-                  {...register('password')}
-                  disabled={isLoading}
-                  className="h-12 bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 focus:border-primary pr-12"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-                {errors.password && (
-                  <p className="text-sm text-destructive mt-1">{errors.password.message}</p>
-                )}
-              </div>
-
-              {/* Login Button */}
-              <Button
-                type="submit"
-                className="w-full h-12 bg-[#003d82] hover:bg-[#002d5f] text-white font-semibold text-base"
-                disabled={isLoading}
-              >
-                {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                Login
-              </Button>
-
-              {/* Forgot Password Link */}
-              <div className="text-center">
-                <Link
-                  href="/forgot-password"
-                  className="text-sm text-[#003d82] hover:underline font-medium"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-            </form>
+                return (
+                  <div
+                    key={index}
+                    className={`glossy-icon aspect-square rounded-3xl bg-gradient-to-br ${module.color} p-4 shadow-2xl hover:scale-110 hover:shadow-3xl transition-all duration-300 cursor-pointer flex items-center justify-center group border border-white/20`}
+                    title={module.label}
+                    style={{
+                      animation: `fall-from-top 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55) ${index * 0.04}s both`,
+                      boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 2px 8px 0 rgba(255, 255, 255, 0.3)',
+                    }}
+                  >
+                    <Icon className="h-8 w-8 text-white drop-shadow-2xl relative z-10" />
+                  </div>
+                );
+              })}
+            </div>
           </div>
+        </div>
 
-          {/* Demo credentials hint */}
-          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <p className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">Demo Credentials:</p>
-            <p className="text-xs text-blue-700 dark:text-blue-300">Email: admin@edunexus.com</p>
-            <p className="text-xs text-blue-700 dark:text-blue-300">Password: admin123</p>
+        {/* Right Side - Login Form */}
+        <div className="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-8">
+          <div className="w-full max-w-md" style={{ animation: 'fade-slide-up 0.8s ease-out' }}>
+            {/* Logo for mobile */}
+            <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
+              <GraduationCap className="h-10 w-10 text-white" />
+              <span className="text-3xl font-bold text-white">edunexus</span>
+            </div>
+
+            {/* Login Card */}
+            <div className="glossy-card rounded-2xl shadow-2xl p-8 md:p-10" style={{ animation: 'fade-slide-up 0.8s ease-out 0.1s both' }}>
+              {/* Logo */}
+              <div className="flex justify-center mb-8" style={{ animation: 'fade-slide-up 0.8s ease-out 0.2s both' }}>
+                <div className="relative">
+                  <div className="glossy-icon w-20 h-20 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-2xl border border-white/30">
+                    <GraduationCap className="h-12 w-12 text-white drop-shadow-lg relative z-10" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Heading */}
+              <h2 className="text-2xl font-bold text-white text-center mb-8" style={{ animation: 'fade-slide-up 0.8s ease-out 0.3s both' }}>
+                Login to get started
+              </h2>
+
+              {/* Login Form */}
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* Username/Email Field */}
+                <div style={{ animation: 'fade-slide-up 0.8s ease-out 0.4s both' }}>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Username"
+                    {...register('email')}
+                    disabled={isLoading}
+                    className="h-12 bg-white/10 backdrop-blur-sm border-white/30 text-white placeholder:text-white/60 focus:border-white focus:bg-white/20"
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-red-300 mt-1">{errors.email.message}</p>
+                  )}
+                </div>
+
+                {/* Password Field */}
+                <div className="relative" style={{ animation: 'fade-slide-up 0.8s ease-out 0.5s both' }}>
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Password"
+                    {...register('password')}
+                    disabled={isLoading}
+                    className="h-12 bg-white/10 backdrop-blur-sm border-white/30 text-white placeholder:text-white/60 focus:border-white focus:bg-white/20 pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                  {errors.password && (
+                    <p className="text-sm text-red-300 mt-1">{errors.password.message}</p>
+                  )}
+                </div>
+
+                {/* Login Button */}
+                <div style={{ animation: 'fade-slide-up 0.8s ease-out 0.6s both' }}>
+                  <Button
+                    type="submit"
+                    className="w-full h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold text-base border border-white/40 shadow-lg hover:shadow-xl transition-all"
+                    disabled={isLoading}
+                  >
+                    {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                    Login
+                  </Button>
+                </div>
+
+                {/* Forgot Password Link */}
+                <div className="text-center" style={{ animation: 'fade-slide-up 0.8s ease-out 0.7s both' }}>
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm text-white/90 hover:text-white hover:underline font-medium"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
+              </form>
+            </div>
+
+            {/* Demo credentials hint */}
+            <div className="relative mt-6 p-4 bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg" style={{ animation: 'fade-slide-up 0.8s ease-out 0.8s both' }}>
+              <p className="text-sm font-medium text-white mb-2">Demo Credentials:</p>
+              <p className="text-xs text-white/80">Email: admin@edunexus.com</p>
+              <p className="text-xs text-white/80">Password: admin123</p>
+            </div>
           </div>
         </div>
       </div>

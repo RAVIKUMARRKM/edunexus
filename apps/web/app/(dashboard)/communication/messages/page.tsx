@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { MessageSquare, Send, Inbox, Mail } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -101,10 +102,12 @@ export default function MessagesPage() {
             {unreadCount > 0 && `${unreadCount} unread message${unreadCount > 1 ? 's' : ''}`}
           </p>
         </div>
-        <Button>
-          <Send className="h-4 w-4 mr-2" />
-          Compose
-        </Button>
+        <Link href="/communication/messages/compose">
+          <Button>
+            <Send className="h-4 w-4 mr-2" />
+            Compose
+          </Button>
+        </Link>
       </div>
 
       {/* Tabs */}

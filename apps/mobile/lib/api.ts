@@ -80,4 +80,54 @@ export const apiHelpers = {
   // Profile
   getProfile: () => api.get('/profile'),
   updateProfile: (data: unknown) => api.put('/profile', data),
+
+  // Parents
+  getParents: (params?: Record<string, unknown>) => api.get('/parents', { params }),
+  getParent: (id: string) => api.get(`/parents/${id}`),
+  createParent: (data: unknown) => api.post('/parents', data),
+
+  // Messages
+  getMessages: (type?: 'received' | 'sent', params?: Record<string, unknown>) =>
+    api.get('/messages', { params: { ...params, type } }),
+  getMessage: (id: string) => api.get(`/messages/${id}`),
+  sendMessage: (data: unknown) => api.post('/messages', data),
+  markMessageRead: (id: string) => api.put(`/messages/${id}/read`),
+
+  // Users (for messaging recipient selection)
+  getUsers: (params?: Record<string, unknown>) => api.get('/users', { params }),
+
+  // Library
+  getBooks: (params?: Record<string, unknown>) => api.get('/library/books', { params }),
+  getBook: (id: string) => api.get(`/library/books/${id}`),
+  addBook: (data: unknown) => api.post('/library/books', data),
+  updateBook: (id: string, data: unknown) => api.put(`/library/books/${id}`, data),
+  deleteBook: (id: string) => api.delete(`/library/books/${id}`),
+  getBookIssues: (params?: Record<string, unknown>) => api.get('/library/issues', { params }),
+  issueBook: (data: unknown) => api.post('/library/issues', data),
+  returnBook: (id: string, data?: unknown) => api.post(`/library/issues/${id}/return`, data),
+
+  // Transport
+  getVehicles: (params?: Record<string, unknown>) => api.get('/transport/vehicles', { params }),
+  getVehicle: (id: string) => api.get(`/transport/vehicles/${id}`),
+  addVehicle: (data: unknown) => api.post('/transport/vehicles', data),
+  updateVehicle: (id: string, data: unknown) => api.put(`/transport/vehicles/${id}`, data),
+  getTransportRoutes: (params?: Record<string, unknown>) => api.get('/transport/routes', { params }),
+  getTransportRoute: (id: string) => api.get(`/transport/routes/${id}`),
+  addTransportRoute: (data: unknown) => api.post('/transport/routes', data),
+  getTransportAllocations: (params?: Record<string, unknown>) => api.get('/transport/allocations', { params }),
+  addTransportAllocation: (data: unknown) => api.post('/transport/allocations', data),
+
+  // Hostel
+  getHostelBuildings: (params?: Record<string, unknown>) => api.get('/hostel/buildings', { params }),
+  getHostelBuilding: (id: string) => api.get(`/hostel/buildings/${id}`),
+  addHostelBuilding: (data: unknown) => api.post('/hostel/buildings', data),
+  getHostelRooms: (params?: Record<string, unknown>) => api.get('/hostel/rooms', { params }),
+  getHostelRoom: (id: string) => api.get(`/hostel/rooms/${id}`),
+  addHostelRoom: (data: unknown) => api.post('/hostel/rooms', data),
+  getHostelAllocations: (params?: Record<string, unknown>) => api.get('/hostel/allocations', { params }),
+  addHostelAllocation: (data: unknown) => api.post('/hostel/allocations', data),
+
+  // Settings
+  changePassword: (data: { currentPassword: string; newPassword: string }) =>
+    api.put('/auth/change-password', data),
 };

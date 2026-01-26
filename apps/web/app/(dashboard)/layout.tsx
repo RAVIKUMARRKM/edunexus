@@ -88,7 +88,21 @@ export default function DashboardLayout({
           <nav className="flex-1 overflow-y-auto py-4">
             <ul className="space-y-1 px-3">
               {menuItems.map((item) => {
-                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                // Check if there's a more specific (longer) menu item that matches the current path
+                const moreSpecificMatch = menuItems.some(
+                  (otherItem) =>
+                    otherItem.href !== item.href &&
+                    otherItem.href.startsWith(item.href) &&
+                    (pathname === otherItem.href || pathname.startsWith(otherItem.href + '/'))
+                );
+
+                // Item is active if pathname matches exactly or starts with item's href
+                // but only if there's no more specific menu item that matches
+                const isActive = !moreSpecificMatch && (
+                  pathname === item.href ||
+                  pathname.startsWith(item.href + '/')
+                );
+
                 return (
                   <li key={item.href}>
                     <Link

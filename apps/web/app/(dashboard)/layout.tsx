@@ -21,6 +21,7 @@ import {
   LogOut,
   User,
   Key,
+  UserPlus,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -38,6 +39,7 @@ import { PasswordChangeGuard } from '@/components/auth/PasswordChangeGuard';
 const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
   { icon: Users, label: 'Students', href: '/students' },
+  { icon: UserPlus, label: 'Parents', href: '/parents' },
   { icon: GraduationCap, label: 'Teachers', href: '/teachers' },
   { icon: Calendar, label: 'Attendance', href: '/attendance' },
   { icon: DollarSign, label: 'Fees', href: '/fees' },

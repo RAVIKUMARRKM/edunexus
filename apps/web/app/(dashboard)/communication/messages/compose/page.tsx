@@ -36,7 +36,21 @@ export default function ComposeMessagePage() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+
+    // Check if userId is in URL params (for direct message links)
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+    if (userId) {
+      // Find and select the user once users are loaded
+      setTimeout(() => {
+        const user = users.find(u => u.id === userId);
+        if (user) {
+          setSelectedUser(user);
+          setSearchQuery(user.name);
+        }
+      }, 500);
+    }
+  }, [users]);
 
   useEffect(() => {
     if (searchQuery.trim()) {

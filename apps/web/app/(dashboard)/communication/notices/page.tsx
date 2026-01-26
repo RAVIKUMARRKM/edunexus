@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Bell, Plus, Calendar, Tag, ExternalLink } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Bell, Plus, Calendar, Tag, ExternalLink, RefreshCw } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,21 +20,30 @@ interface Notice {
 }
 
 export default function NoticesPage() {
+  const router = useRouter();
   const [notices, setNotices] = useState<Notice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState<string>('all');
 
   useEffect(() => {
     fetchNotices();
   }, [filter]);
 
-  const fetchNotices = async () => {
+  const fetchNotices = async (isRefresh = false) => {
     try {
-      const url = filter !== 'all'
-        ? `/api/notices?type=${filter}`
-        : '/api/notices';
+      if (isRefresh) {
+        setRefreshing(true);
+      }
 
-      const response = await fetch(url);
+      const url = filter !== 'all'
+        ? `/api/notices?type=${filter}&t=${Date.now()}` // Add timestamp to bypass cache
+        : `/api/notices?t=${Date.now()}`;
+
+      const response = await fetch(url, {
+        cache: 'no-store', // Ensure fresh data
+      });
+
       if (response.ok) {
         const data = await response.json();
         setNotices(data.notices || []);
@@ -42,7 +52,15 @@ export default function NoticesPage() {
       console.error('Failed to fetch notices:', error);
     } finally {
       setLoading(false);
+      if (isRefresh) {
+        setRefreshing(false);
+      }
     }
+  };
+
+  const handleRefresh = () => {
+    fetchNotices(true);
+    router.refresh(); // Refresh router cache as well
   };
 
   const getNoticeTypeColor = (type: string) => {
@@ -85,12 +103,22 @@ export default function NoticesPage() {
             View all school notices and announcements
           </p>
         </div>
-        <Link href="/communication/notices/new">
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Create Notice
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={handleRefresh}
+            disabled={refreshing}
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+            Refresh
           </Button>
-        </Link>
+          <Link href="/communication/notices/new">
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Notice
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}

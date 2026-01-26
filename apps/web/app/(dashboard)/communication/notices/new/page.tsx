@@ -62,6 +62,7 @@ export default function CreateNoticePage() {
       if (response.ok) {
         toast.success(publish ? 'Notice published successfully!' : 'Notice saved as draft!');
         router.push('/communication/notices');
+        router.refresh(); // Force refresh to fetch latest notices
       } else {
         const error = await response.json();
         toast.error(error.error || 'Failed to create notice');

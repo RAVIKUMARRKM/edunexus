@@ -33,9 +33,14 @@ export async function GET(request: NextRequest) {
           avatar: true,
           role: true,
           createdAt: true,
-          _count: {
+          parent: {
             select: {
-              children: true,
+              id: true,
+              _count: {
+                select: {
+                  students: true,
+                },
+              },
             },
           },
         },
@@ -46,8 +51,22 @@ export async function GET(request: NextRequest) {
       prisma.user.count({ where }),
     ]);
 
+    // Transform the data to include children count in the expected format
+    const transformedParents = parents.map((parent) => ({
+      id: parent.id,
+      name: parent.name,
+      email: parent.email,
+      phone: parent.phone,
+      avatar: parent.avatar,
+      role: parent.role,
+      createdAt: parent.createdAt,
+      _count: {
+        children: parent.parent?._count?.students || 0,
+      },
+    }));
+
     return NextResponse.json({
-      parents,
+      parents: transformedParents,
       pagination: {
         total,
         page,
@@ -112,33 +131,57 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create parent user account
-    const parent = await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         name,
         email,
         phone,
         password: hashedPassword,
         role: 'PARENT',
-        children: {
-          connect: childrenIds.map((id: string) => ({ id })),
+      },
+    });
+
+    // Create parent record
+    const parentRecord = await prisma.parent.create({
+      data: {
+        userId: user.id,
+        // Basic parent info can be added later through profile update
+      },
+    });
+
+    // Link children to parent through StudentParent join table
+    await Promise.all(
+      childrenIds.map((studentId: string) =>
+        prisma.studentParent.create({
+          data: {
+            studentId,
+            parentId: parentRecord.id,
+            relation: 'parent',
+            isPrimary: true,
+          },
+        })
+      )
+    );
+
+    // Fetch linked children for response
+    const children = await prisma.student.findMany({
+      where: {
+        id: {
+          in: childrenIds,
         },
       },
-      include: {
-        children: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            admissionNo: true,
-          },
-        },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        admissionNo: true,
       },
     });
 
     // Create notification for parent
     await prisma.notification.create({
       data: {
-        userId: parent.id,
+        userId: user.id,
         title: 'Welcome to EduNexus',
         message: `Your parent account has been created. You can now login with your email: ${email}`,
         type: 'general',
@@ -149,11 +192,11 @@ export async function POST(request: NextRequest) {
       {
         message: 'Parent account created successfully',
         parent: {
-          id: parent.id,
-          name: parent.name,
-          email: parent.email,
-          phone: parent.phone,
-          children: parent.children,
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          children,
         },
       },
       { status: 201 }

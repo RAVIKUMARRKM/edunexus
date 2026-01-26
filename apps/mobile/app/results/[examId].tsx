@@ -5,6 +5,8 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useAuth } from '@/lib/auth';
 import { apiHelpers } from '@/lib/api';
 import ResultCard from '@/components/ResultCard';
+import { generateExamResultPDF } from '@/lib/pdf-export';
+import { shareExamResult } from '@/lib/share';
 
 export default function ResultDetailScreen() {
   const router = useRouter();
@@ -42,6 +44,53 @@ export default function ResultDetailScreen() {
     if (percentage >= 60) return 'Good Job!';
     if (percentage >= 45) return 'Keep Improving!';
     return 'Need More Effort!';
+  };
+
+  const handleExportPDF = async () => {
+    if (result) {
+      await generateExamResultPDF({
+        exam: {
+          name: result.examName,
+          date: result.examDate,
+          type: result.examType || 'Regular',
+        },
+        student: {
+          firstName: user?.name?.split(' ')[0] || '',
+          lastName: user?.name?.split(' ').slice(1).join(' ') || '',
+          admissionNo: user?.id || '',
+          class: { name: result.className || '' },
+          section: { name: result.sectionName || '' },
+        },
+        results: result.subjects?.map((s: any) => ({
+          subject: { name: s.subject },
+          marksObtained: s.obtainedMarks,
+          maxMarks: s.totalMarks,
+          grade: s.grade,
+        })) || [],
+        totalMarks: obtainedMarks,
+        totalMaxMarks: totalMarks,
+        percentage: Number(percentage),
+        grade: result.grade,
+      });
+    }
+  };
+
+  const handleShare = async () => {
+    if (result) {
+      await shareExamResult({
+        examName: result.examName,
+        studentName: user?.name || '',
+        subjects: result.subjects?.map((s: any) => ({
+          name: s.subject,
+          marksObtained: s.obtainedMarks,
+          maxMarks: s.totalMarks,
+        })) || [],
+        totalMarks: obtainedMarks,
+        totalMaxMarks: totalMarks,
+        percentage: Number(percentage),
+        grade: result.grade,
+      });
+    }
   };
 
   if (isLoading) {
@@ -103,7 +152,7 @@ export default function ResultDetailScreen() {
               {formatDate(result.examDate)}
             </Text>
           </View>
-          <TouchableOpacity className="bg-white/20 rounded-full p-2">
+          <TouchableOpacity onPress={handleShare} className="bg-white/20 rounded-full p-2">
             <Ionicons name="share-social" size={20} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
@@ -261,16 +310,16 @@ export default function ResultDetailScreen() {
 
           {/* Action Buttons */}
           <View className="flex-row space-x-3 mb-4">
-            <TouchableOpacity className="flex-1 bg-blue-500 rounded-xl py-4">
+            <TouchableOpacity onPress={handleExportPDF} className="flex-1 bg-blue-500 rounded-xl py-4">
               <View className="flex-row items-center justify-center">
                 <Ionicons name="download" size={20} color="#FFFFFF" />
-                <Text className="text-white font-semibold ml-2">Download PDF</Text>
+                <Text className="text-white font-semibold ml-2">Export PDF</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 bg-gray-100 rounded-xl py-4">
+            <TouchableOpacity onPress={handleShare} className="flex-1 bg-gray-100 rounded-xl py-4">
               <View className="flex-row items-center justify-center">
-                <Ionicons name="print" size={20} color="#6B7280" />
-                <Text className="text-gray-700 font-semibold ml-2">Print</Text>
+                <Ionicons name="share-outline" size={20} color="#6B7280" />
+                <Text className="text-gray-700 font-semibold ml-2">Share</Text>
               </View>
             </TouchableOpacity>
           </View>

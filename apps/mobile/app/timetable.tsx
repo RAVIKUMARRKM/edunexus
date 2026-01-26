@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '@/lib/auth';
 import { api } from '@/lib/api';
 import TimetableView from '@/components/TimetableView';
+import { generateTimetablePDF } from '@/lib/pdf-export';
 
 export default function TimetableScreen() {
   const router = useRouter();
@@ -24,6 +25,27 @@ export default function TimetableScreen() {
     enabled: !!user?.classId,
   });
 
+  const handleDownloadTimetable = async () => {
+    if (timetableData?.data?.schedule) {
+      await generateTimetablePDF({
+        class: { name: timetableData.data.class || user?.classId || '' },
+        section: { name: timetableData.data.section || user?.sectionId || '' },
+        schedule: timetableData.data.schedule.map((day: any) => ({
+          day: day.day,
+          periods: day.periods.map((period: any) => ({
+            startTime: period.startTime,
+            endTime: period.endTime,
+            subject: { name: period.subject },
+            teacher: {
+              firstName: period.teacher?.split(' ')[0] || '',
+              lastName: period.teacher?.split(' ').slice(1).join(' ') || '',
+            },
+          })),
+        })),
+      });
+    }
+  };
+
   return (
     <View className="flex-1 bg-gray-50">
       {/* Header */}
@@ -33,7 +55,7 @@ export default function TimetableScreen() {
             <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
           </TouchableOpacity>
           <Text className="text-white text-xl font-bold">Timetable</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleDownloadTimetable}>
             <Ionicons name="download-outline" size={24} color="#FFFFFF" />
           </TouchableOpacity>
         </View>

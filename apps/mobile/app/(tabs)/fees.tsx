@@ -13,6 +13,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/lib/auth';
 import { apiHelpers } from '@/lib/api';
 import FeeCard from '@/components/FeeCard';
+import { generateFeeReceiptPDF } from '@/lib/pdf-export';
+import { shareFeeReceipt } from '@/lib/share';
 
 export default function FeesScreen() {
   const { user } = useAuth();
@@ -88,6 +90,37 @@ export default function FeesScreen() {
         },
       ]
     );
+  };
+
+  const handleDownloadReceipt = async (payment: any) => {
+    await generateFeeReceiptPDF({
+      id: payment.id,
+      receiptNo: payment.receiptNo || `REC-${payment.id}`,
+      amount: payment.amount,
+      paidAmount: payment.amount,
+      fineAmount: payment.fineAmount,
+      paymentDate: payment.date,
+      paymentMode: payment.method,
+      student: {
+        firstName: user?.name?.split(' ')[0] || '',
+        lastName: user?.name?.split(' ').slice(1).join(' ') || '',
+        admissionNo: user?.id || '',
+      },
+      feeStructure: {
+        name: payment.title,
+        amount: payment.amount,
+      },
+    });
+  };
+
+  const handleShareReceipt = async (payment: any) => {
+    await shareFeeReceipt({
+      receiptNo: payment.receiptNo || `REC-${payment.id}`,
+      studentName: user?.name || '',
+      amount: payment.amount,
+      paymentDate: payment.date,
+      paymentMode: payment.method,
+    });
   };
 
   return (
@@ -257,31 +290,46 @@ export default function FeesScreen() {
                 Recent Payments
               </Text>
               {paymentHistory.data.payments.slice(0, 5).map((payment: any, index: number) => (
-                <View
-                  key={payment.id}
-                  className={`flex-row items-center justify-between py-3 ${
-                    index !== 4 ? 'border-b border-gray-100' : ''
-                  }`}
-                >
-                  <View>
-                    <Text className="text-sm font-medium text-gray-900">
-                      {payment.title}
-                    </Text>
-                    <Text className="text-xs text-gray-500">
-                      {new Date(payment.date).toLocaleDateString('en-IN', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </Text>
-                  </View>
-                  <View className="items-end">
-                    <Text className="text-base font-semibold text-green-600">
-                      {formatCurrency(payment.amount)}
-                    </Text>
-                    <Text className="text-xs text-gray-500">
-                      {payment.method}
-                    </Text>
+                <View key={payment.id}>
+                  <View
+                    className={`flex-row items-center justify-between py-3 ${
+                      index !== 4 ? 'border-b border-gray-100' : ''
+                    }`}
+                  >
+                    <View className="flex-1">
+                      <Text className="text-sm font-medium text-gray-900">
+                        {payment.title}
+                      </Text>
+                      <Text className="text-xs text-gray-500">
+                        {new Date(payment.date).toLocaleDateString('en-IN', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </Text>
+                    </View>
+                    <View className="items-end mr-3">
+                      <Text className="text-base font-semibold text-green-600">
+                        {formatCurrency(payment.amount)}
+                      </Text>
+                      <Text className="text-xs text-gray-500">
+                        {payment.method}
+                      </Text>
+                    </View>
+                    <View className="flex-row gap-2">
+                      <TouchableOpacity
+                        onPress={() => handleDownloadReceipt(payment)}
+                        className="w-8 h-8 bg-blue-100 rounded-full items-center justify-center"
+                      >
+                        <Ionicons name="download-outline" size={16} color="#3B82F6" />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => handleShareReceipt(payment)}
+                        className="w-8 h-8 bg-gray-100 rounded-full items-center justify-center"
+                      >
+                        <Ionicons name="share-outline" size={16} color="#6B7280" />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               ))}

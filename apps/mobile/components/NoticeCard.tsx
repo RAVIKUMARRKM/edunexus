@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { shareNotice } from '@/lib/share';
 
 interface Notice {
   id: string;
@@ -20,6 +21,15 @@ interface NoticeCardProps {
 }
 
 export default function NoticeCard({ notice, onPress }: NoticeCardProps) {
+  const handleShare = async (e: any) => {
+    e.stopPropagation();
+    await shareNotice({
+      title: notice.title,
+      content: notice.content,
+      date: notice.date,
+    });
+  };
+
   const getCategoryColor = () => {
     switch (notice.category) {
       case 'URGENT':
@@ -120,6 +130,12 @@ export default function NoticeCard({ notice, onPress }: NoticeCardProps) {
             {notice.title}
           </Text>
         </View>
+        <TouchableOpacity
+          onPress={handleShare}
+          className="ml-2 w-8 h-8 bg-gray-100 rounded-full items-center justify-center"
+        >
+          <Ionicons name="share-social-outline" size={16} color="#6B7280" />
+        </TouchableOpacity>
       </View>
 
       {/* Content Preview */}

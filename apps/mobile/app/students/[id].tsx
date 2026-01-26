@@ -4,6 +4,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/lib/auth';
 import { apiHelpers } from '@/lib/api';
+import { generateStudentReportPDF } from '@/lib/pdf-export';
+import { shareContact } from '@/lib/share';
 
 export default function StudentDetailScreen() {
   const router = useRouter();
@@ -44,6 +46,23 @@ export default function StudentDetailScreen() {
         },
       ]
     );
+  };
+
+  const handleExportPDF = async () => {
+    if (student) {
+      await generateStudentReportPDF(student);
+    }
+  };
+
+  const handleShare = async () => {
+    if (student) {
+      await shareContact({
+        name: `${student.firstName} ${student.lastName}`,
+        email: student.user?.email,
+        phone: student.user?.phone,
+        role: 'Student',
+      });
+    }
   };
 
   const canEdit = ['SUPER_ADMIN', 'ADMIN', 'PRINCIPAL'].includes(user?.role || '');
@@ -124,6 +143,25 @@ export default function StudentDetailScreen() {
           <InfoRow icon="call-outline" label="Phone" value={student.user?.phone || 'N/A'} />
           <InfoRow icon="location-outline" label="Address" value={student.address || 'N/A'} />
           <InfoRow icon="business-outline" label="City" value={student.city || 'N/A'} />
+        </View>
+
+        {/* Quick Actions */}
+        <View className="flex-row gap-3 mb-4">
+          <TouchableOpacity
+            onPress={handleExportPDF}
+            className="flex-1 bg-green-500 py-4 rounded-xl flex-row items-center justify-center"
+          >
+            <Ionicons name="document-text-outline" size={20} color="white" />
+            <Text className="text-white font-semibold ml-2">Export PDF</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={handleShare}
+            className="flex-1 bg-purple-500 py-4 rounded-xl flex-row items-center justify-center"
+          >
+            <Ionicons name="share-outline" size={20} color="white" />
+            <Text className="text-white font-semibold ml-2">Share</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Action Buttons */}

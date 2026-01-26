@@ -52,6 +52,9 @@ export const apiHelpers = {
   getTeachers: (params?: Record<string, unknown>) => api.get('/teachers', { params }),
   getTeacher: (id: string) => api.get(`/teachers/${id}`),
 
+  // Departments
+  getDepartments: () => api.get('/departments'),
+
   // Classes
   getClasses: () => api.get('/classes'),
   getSections: (classId: string) => api.get(`/classes/${classId}/sections`),
@@ -92,6 +95,7 @@ export const apiHelpers = {
   getMessage: (id: string) => api.get(`/messages/${id}`),
   sendMessage: (data: unknown) => api.post('/messages', data),
   markMessageRead: (id: string) => api.put(`/messages/${id}/read`),
+  deleteMessage: (id: string) => api.delete(`/messages/${id}`),
 
   // Users (for messaging recipient selection)
   getUsers: (params?: Record<string, unknown>) => api.get('/users', { params }),

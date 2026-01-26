@@ -14,12 +14,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/lib/auth';
 import { apiHelpers } from '@/lib/api';
+import { pickImageWithOptions } from '@/lib/image-picker';
 
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, logout } = useAuth();
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
+  const [avatarUri, setAvatarUri] = useState<string | null>(null);
   const [editedProfile, setEditedProfile] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -67,6 +69,20 @@ export default function ProfileScreen() {
     updateProfileMutation.mutate(editedProfile);
   };
 
+  const handleChangePhoto = async () => {
+    const result = await pickImageWithOptions({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (result) {
+      setAvatarUri(result.uri);
+      // TODO: Upload to server when API is available
+      Alert.alert('Success', 'Photo updated! (Local only - server upload coming soon)');
+    }
+  };
+
   if (isLoading) {
     return (
       <View className="flex-1 bg-gray-50 items-center justify-center">
@@ -83,9 +99,9 @@ export default function ProfileScreen() {
       {/* Profile Header */}
       <View className="bg-gradient-to-r from-blue-500 to-purple-500 px-6 pt-6 pb-12">
         <View className="items-center">
-          {profile.avatar ? (
+          {avatarUri || profile.avatar ? (
             <Image
-              source={{ uri: profile.avatar }}
+              source={{ uri: avatarUri || profile.avatar }}
               className="w-24 h-24 rounded-full border-4 border-white"
             />
           ) : (
@@ -95,7 +111,10 @@ export default function ProfileScreen() {
               </Text>
             </View>
           )}
-          <TouchableOpacity className="absolute right-0 top-0 bg-white rounded-full p-2">
+          <TouchableOpacity
+            onPress={handleChangePhoto}
+            className="absolute right-0 top-0 bg-white rounded-full p-2 shadow-lg"
+          >
             <Ionicons name="camera" size={20} color="#3B82F6" />
           </TouchableOpacity>
         </View>
@@ -267,33 +286,44 @@ export default function ProfileScreen() {
 
         {/* Settings Section */}
         <View className="bg-white rounded-2xl p-4 shadow-sm mb-4">
-          <Text className="text-lg font-semibold text-gray-900 mb-4">
-            Settings
-          </Text>
+          <View className="flex-row items-center justify-between mb-4">
+            <Text className="text-lg font-semibold text-gray-900">
+              Settings
+            </Text>
+            <TouchableOpacity
+              onPress={() => router.push('/settings' as any)}
+              className="bg-blue-100 rounded-lg px-3 py-2"
+            >
+              <View className="flex-row items-center">
+                <Text className="text-blue-600 font-medium mr-1">View All</Text>
+                <Ionicons name="chevron-forward" size={16} color="#3B82F6" />
+              </View>
+            </TouchableOpacity>
+          </View>
           <SettingItem
             icon="notifications"
             label="Notifications"
-            onPress={() => {}}
+            onPress={() => router.push('/settings/notifications' as any)}
             showArrow
           />
           <SettingItem
             icon="lock-closed"
             label="Change Password"
-            onPress={() => {}}
+            onPress={() => router.push('/settings/password' as any)}
             showArrow
           />
           <SettingItem
             icon="language"
             label="Language"
             value="English"
-            onPress={() => {}}
+            onPress={() => router.push('/settings/language' as any)}
             showArrow
           />
           <SettingItem
-            icon="moon"
-            label="Dark Mode"
-            onPress={() => {}}
-            hasSwitch
+            icon="color-palette"
+            label="Appearance"
+            onPress={() => router.push('/settings/appearance' as any)}
+            showArrow
           />
         </View>
 
@@ -303,27 +333,9 @@ export default function ProfileScreen() {
             Account
           </Text>
           <SettingItem
-            icon="help-circle"
-            label="Help & Support"
-            onPress={() => {}}
-            showArrow
-          />
-          <SettingItem
             icon="information-circle"
             label="About"
-            onPress={() => {}}
-            showArrow
-          />
-          <SettingItem
-            icon="document-text"
-            label="Terms & Conditions"
-            onPress={() => {}}
-            showArrow
-          />
-          <SettingItem
-            icon="shield-checkmark"
-            label="Privacy Policy"
-            onPress={() => {}}
+            onPress={() => router.push('/settings/about' as any)}
             showArrow
           />
         </View>

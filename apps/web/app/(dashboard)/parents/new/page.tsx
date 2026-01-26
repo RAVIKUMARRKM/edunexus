@@ -42,10 +42,21 @@ export default function AddParentPage() {
       const response = await fetch('/api/students?limit=1000');
       if (response.ok) {
         const data = await response.json();
-        setStudents(data.students || []);
+        // Map the API response to match our Student interface
+        const mappedStudents = (data.data || []).map((student: any) => ({
+          id: student.id,
+          firstName: student.firstName,
+          lastName: student.lastName,
+          admissionNo: student.admissionNo,
+          className: student.class?.name || student.section?.name
+            ? `${student.class?.name || ''} ${student.section?.name || ''}`.trim()
+            : undefined,
+        }));
+        setStudents(mappedStudents);
       }
     } catch (error) {
       console.error('Failed to fetch students:', error);
+      toast.error('Failed to load students');
     }
   };
 

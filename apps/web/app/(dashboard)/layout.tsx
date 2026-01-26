@@ -60,6 +60,10 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const { data: session } = useSession();
 
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/login' });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Sidebar */}
@@ -204,8 +208,11 @@ export default function DashboardLayout({
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    className="text-red-600"
-                    onClick={() => signOut({ callbackUrl: '/login' })}
+                    className="text-red-600 cursor-pointer"
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      handleLogout();
+                    }}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Logout</span>

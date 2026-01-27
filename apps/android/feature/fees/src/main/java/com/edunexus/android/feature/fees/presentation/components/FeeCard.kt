@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.AccountBalance
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.School
 import androidx.compose.material3.Badge
@@ -171,11 +172,52 @@ fun FeeCard(
 }
 
 /**
- * Student Avatar Component
+ * Fee Status Badge Component
+ * Displays a badge with status color and label
  */
 @Composable
+fun FeeStatusBadge(status: String) {
+    val (backgroundColor, textColor, label) = when (status.uppercase()) {
+        "PAID" -> Triple(
+            Color(0xFF10B981).copy(alpha = 0.1f),
+            Color(0xFF10B981),
+            "Paid"
+        )
+        "PENDING" -> Triple(
+            Color(0xFFF59E0B).copy(alpha = 0.1f),
+            Color(0xFFF59E0B),
+            "Pending"
+        )
+        "OVERDUE" -> Triple(
+            Color(0xFFEF4444).copy(alpha = 0.1f),
+            Color(0xFFEF4444),
+            "Overdue"
+        )
+        "PARTIAL" -> Triple(
+            Color(0xFF3B82F6).copy(alpha = 0.1f),
+            Color(0xFF3B82F6),
+            "Partial"
+        )
+        else -> Triple(
+            MaterialTheme.colorScheme.surfaceVariant,
+            MaterialTheme.colorScheme.onSurfaceVariant,
+            status
+        )
+    }
 
-/**
- * Student Status Badge Component
- */
-@Composable
+    Box(
+        modifier = Modifier
+            .background(
+                color = backgroundColor,
+                shape = MaterialTheme.shapes.small
+            )
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            color = textColor,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}

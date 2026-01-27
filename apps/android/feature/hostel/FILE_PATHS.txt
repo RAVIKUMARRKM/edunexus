@@ -1,0 +1,43 @@
+HOSTEL MODULE - ALL FILE PATHS
+================================================================================
+
+BASE PATH: D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel
+
+DATA LAYER:
+1. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\data\repository\HostelRepository.kt
+
+2. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\data\repository\HostelRepositoryImpl.kt
+
+DEPENDENCY INJECTION:
+3. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\di\HostelModule.kt
+
+PRESENTATION - BUILDINGS:
+4. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\buildings\BuildingsScreen.kt
+
+5. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\buildings\BuildingsViewModel.kt
+
+PRESENTATION - COMPONENTS:
+6. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\components\BuildingCard.kt
+
+7. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\components\RoomCard.kt
+
+PRESENTATION - ROOMS:
+8. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\rooms\RoomsScreen.kt
+
+9. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\rooms\RoomsViewModel.kt
+
+PRESENTATION - DETAIL:
+10. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\detail\RoomDetailScreen.kt
+
+11. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\detail\RoomDetailViewModel.kt
+
+PRESENTATION - COORDINATOR:
+12. D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\src\main\java\com\edunexus\android\feature\hostel\presentation\HostelViewModel.kt
+
+DOCUMENTATION:
+- D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\HOSTEL_MODULE_COMPLETE.md
+- D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\IMPLEMENTATION_CHECKLIST.md
+- D:\Ravi Kumar\My Personal Work\edunexus\apps\android\feature\hostel\FILE_PATHS.txt
+
+================================================================================
+TOTAL: 12 Kotlin files + 3 documentation files

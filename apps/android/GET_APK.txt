@@ -1,0 +1,96 @@
+================================================================================
+                    WHERE IS YOUR APK FILE?
+================================================================================
+
+THE APK DOESN'T EXIST YET! You need to BUILD it first.
+
+================================================================================
+                    HOW TO GET YOUR APK (3 SIMPLE STEPS)
+================================================================================
+
+STEP 1: CREATE local.properties FILE
+-------------------------------------
+Location: D:\Ravi Kumar\My Personal Work\edunexus\apps\android\local.properties
+
+Content:
+sdk.dir=C:\\Users\\Ravi Kumar\\AppData\\Local\\Android\\Sdk
+
+(Replace "Ravi Kumar" with your actual Windows username if different)
+
+
+STEP 2: BUILD THE APK
+-------------------------------------
+Open Command Prompt in this folder:
+D:\Ravi Kumar\My Personal Work\edunexus\apps\android
+
+Run this command:
+gradlew.bat assembleDebug
+
+OR just double-click: build_apk.bat
+
+
+STEP 3: YOUR APK WILL BE HERE
+-------------------------------------
+After successful build, find your APK at:
+
+📱 EXACT PATH:
+D:\Ravi Kumar\My Personal Work\edunexus\apps\android\app\build\outputs\apk\debug\app-debug.apk
+
+File name: app-debug.apk
+Size: About 15-25 MB
+
+
+================================================================================
+                    INSTALL APK ON YOUR MOBILE
+================================================================================
+
+METHOD 1: VIA USB (FASTEST)
+-------------------------------------
+1. Connect phone via USB cable
+2. Open Command Prompt and run:
+   adb install "D:\Ravi Kumar\My Personal Work\edunexus\apps\android\app\build\outputs\apk\debug\app-debug.apk"
+
+
+METHOD 2: MANUAL TRANSFER
+-------------------------------------
+1. Copy the APK file from above path
+2. Transfer to your phone (USB/Email/WhatsApp/Cloud)
+3. On phone: Open APK file → Tap Install
+
+
+================================================================================
+                    DON'T HAVE ANDROID SDK?
+================================================================================
+
+Install Android Studio (includes SDK):
+https://developer.android.com/studio
+
+After installation, the SDK will be at:
+C:\Users\YOUR_USERNAME\AppData\Local\Android\Sdk
+
+
+================================================================================
+                    QUICK CHECK
+================================================================================
+
+Do you have Android SDK installed?
+
+Check if this folder exists:
+C:\Users\Ravi Kumar\AppData\Local\Android\Sdk
+
+YES? → Go to STEP 1 above
+NO? → Install Android Studio first
+
+
+================================================================================
+                    NEED HELP?
+================================================================================
+
+If you get any errors, send me:
+1. The exact error message
+2. What step you're on
+
+I'll help you fix it immediately!
+
+
+================================================================================

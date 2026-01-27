@@ -1,0 +1,204 @@
+.
+|____build
+| |____.transforms
+| | |____1cd2730b2e22b4ab0a55d7850ed54afa
+| | | |____results.bin
+| | | |____transformed
+| | | | |____debug
+| | | | | |____debug_dex
+| | | | | | |____com
+| | | | | | | |____edunexus
+| | | | | | | | |____android
+| | | | | | | | | |____feature
+| | | | | | | | | | |____classes
+| | | | | | | | | | | |____BuildConfig.dex
+| | | | | |____debug_global-synthetics
+| | | | | |____desugar_graph.bin
+| | |____4a8939763d98261d74291f3b05126a1f
+| | | |____results.bin
+| | | |____transformed
+| | |____4f0c2a87b23b8d0e89cca39f4baa95d0
+| | | |____results.bin
+| | | |____transformed
+| | |____68df41ff5cb09cbf7d296c5ab7fe85b2
+| | | |____results.bin
+| | | |____transformed
+| | |____71678e965418ed34a356f8eaf5266e53
+| | | |____results.bin
+| | | |____transformed
+| | |____90bea5ae52473cd230fc76f115557ee4
+| | | |____results.bin
+| | | |____transformed
+| | | | |____classes
+| | | | | |____classes_dex
+| | | | | | |____classes.dex
+| | | | | |____classes_global-synthetics
+| | |____c47c006a6f20e0d6467c42dd13db9a00
+| | | |____results.bin
+| | | |____transformed
+| | |____e4c3c7704b867f7a50238351ea5b3c58
+| | | |____results.bin
+| | | |____transformed
+| |____generated
+| | |____ap_generated_sources
+| | | |____debug
+| | | | |____out
+| | |____res
+| | | |____pngs
+| | | | |____debug
+| | | |____resValues
+| | | | |____debug
+| | |____source
+| | | |____buildConfig
+| | | | |____debug
+| | | | | |____com
+| | | | | | |____edunexus
+| | | | | | | |____android
+| | | | | | | | |____feature
+| | | | | | | | | |____classes
+| | | | | | | | | | |____BuildConfig.java
+| |____intermediates
+| | |____aapt_friendly_merged_manifests
+| | | |____debug
+| | | | |____aapt
+| | | | | |____AndroidManifest.xml
+| | | | | |____output-metadata.json
+| | |____aar_metadata
+| | | |____debug
+| | | | |____aar-metadata.properties
+| | |____annotation_processor_list
+| | | |____debug
+| | | | |____annotationProcessors.json
+| | |____classes
+| | | |____debug
+| | | | |____transformDebugClassesWithAsm
+| | | | | |____dirs
+| | | | | | |____com
+| | | | | | | |____edunexus
+| | | | | | | | |____android
+| | | | | | | | | |____feature
+| | | | | | | | | | |____classes
+| | | | | | | | | | | |____BuildConfig.class
+| | | | | |____jars
+| | |____compiled_local_resources
+| | | |____debug
+| | | | |____out
+| | |____compile_library_classes_jar
+| | | |____debug
+| | | | |____classes.jar
+| | |____compile_r_class_jar
+| | | |____debug
+| | | | |____R.jar
+| | |____compile_symbol_list
+| | | |____debug
+| | | | |____R.txt
+| | |____data_binding_layout_info_type_package
+| | | |____debug
+| | | | |____out
+| | |____incremental
+| | | |____debug
+| | | | |____packageDebugResources
+| | | | | |____compile-file-map.properties
+| | | | | |____merged.dir
+| | | | | |____merger.xml
+| | | | | |____stripped.dir
+| | | |____mergeDebugJniLibFolders
+| | | | |____merger.xml
+| | | |____mergeDebugShaders
+| | | | |____merger.xml
+| | | |____packageDebugAssets
+| | | | |____merger.xml
+| | | |____transformDebugClassesWithAsm
+| | |____javac
+| | | |____debug
+| | | | |____classes
+| | | | | |____com
+| | | | | | |____edunexus
+| | | | | | | |____android
+| | | | | | | | |____feature
+| | | | | | | | | |____classes
+| | | | | | | | | | |____BuildConfig.class
+| | |____library_assets
+| | | |____debug
+| | | | |____out
+| | |____library_jni
+| | | |____debug
+| | | | |____jni
+| | |____local_only_symbol_list
+| | | |____debug
+| | | | |____R-def.txt
+| | |____manifest_merge_blame_file
+| | | |____debug
+| | | | |____manifest-merger-blame-debug-report.txt
+| | |____merged_jni_libs
+| | | |____debug
+| | | | |____out
+| | |____merged_manifest
+| | | |____debug
+| | | | |____AndroidManifest.xml
+| | |____merged_shaders
+| | | |____debug
+| | | | |____out
+| | |____navigation_json
+| | | |____debug
+| | | | |____navigation.json
+| | |____packaged_res
+| | | |____debug
+| | |____public_res
+| | | |____debug
+| | |____runtime_library_classes_dir
+| | | |____debug
+| | | | |____com
+| | | | | |____edunexus
+| | | | | | |____android
+| | | | | | | |____feature
+| | | | | | | | |____classes
+| | | | | | | | | |____BuildConfig.class
+| | |____runtime_library_classes_jar
+| | | |____debug
+| | | | |____classes.jar
+| | |____symbol_list_with_package_name
+| | | |____debug
+| | | | |____package-aware-r.txt
+| |____outputs
+| | |____logs
+| | | |____manifest-merger-debug-report.txt
+| |____tmp
+| | |____compileDebugJavaWithJavac
+| | | |____compileTransaction
+| | | | |____backup-dir
+| | | | |____stash-dir
+| | | |____previous-compilation-data.bin
+|____build.gradle.kts
+|____COMPLETION_REPORT.md
+|____DIRECTORY_STRUCTURE.txt
+|____FILES_CREATED.md
+|____IMPLEMENTATION_SUMMARY.md
+|____README.md
+|____src
+| |____main
+| | |____AndroidManifest.xml
+| | |____java
+| | | |____com
+| | | | |____edunexus
+| | | | | |____android
+| | | | | | |____feature
+| | | | | | | |____classes
+| | | | | | | | |____data
+| | | | | | | | | |____repository
+| | | | | | | | | | |____ClassRepository.kt
+| | | | | | | | | | |____ClassRepositoryImpl.kt
+| | | | | | | | |____di
+| | | | | | | | | |____ClassesModule.kt
+| | | | | | | | |____presentation
+| | | | | | | | | |____addedit
+| | | | | | | | | | |____AddEditClassScreen.kt
+| | | | | | | | | |____components
+| | | | | | | | | | |____ClassCard.kt
+| | | | | | | | | |____detail
+| | | | | | | | | | |____ClassDetailScreen.kt
+| | | | | | | | | | |____ClassDetailViewModel.kt
+| | | | | | | | | |____list
+| | | | | | | | | | |____ClassesScreen.kt
+| | | | | | | | | | |____ClassesViewModel.kt
+|____USAGE_GUIDE.md

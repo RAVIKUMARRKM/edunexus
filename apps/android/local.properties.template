@@ -1,0 +1,24 @@
+## This file must be named: local.properties
+## Location: D:\Ravi Kumar\My Personal Work\edunexus\apps\android\local.properties
+##
+## Instructions:
+## 1. Copy this file and rename it to "local.properties" (remove .template)
+## 2. Update the sdk.dir path below to match your Android SDK installation
+## 3. Do NOT commit local.properties to Git (it's in .gitignore)
+
+# Android SDK Location
+# Replace YOUR_USERNAME with your actual Windows username
+# Use forward slashes (/) or escaped backslashes (\\)
+
+## For Windows (typical installation):
+sdk.dir=C\:\\Users\\YOUR_USERNAME\\AppData\\Local\\Android\\Sdk
+
+## Examples:
+# sdk.dir=C\:\\Users\\RaviKumar\\AppData\\Local\\Android\\Sdk
+# sdk.dir=C:/Users/RaviKumar/AppData/Local/Android/Sdk
+
+## For custom Android Studio installation:
+# sdk.dir=D\:\\AndroidSDK
+
+## To find your SDK path:
+## Open Android Studio → Tools → SDK Manager → Look at "Android SDK Location"

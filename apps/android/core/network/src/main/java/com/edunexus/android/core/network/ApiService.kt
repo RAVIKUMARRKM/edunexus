@@ -274,7 +274,6 @@ interface ApiService {
 
     @POST("/api/hostel/allocations")
     suspend fun addHostelAllocation(@Body request: HostelAllocationRequest): Response<HostelAllocationDto>
-}
 
     // ==================== Inventory ====================
 
